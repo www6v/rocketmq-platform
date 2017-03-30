@@ -2,14 +2,42 @@
 
 <config description="Autoconfig Template">
     <group name="rocketmq">
-        <property name="rocketmq.namesrvAddr" defaultValue="mq-namesrv1:9876" description="name server address"/>
-        <property name="producer.defaultGroup" defaultValue="SELF_TEST_P_GROUP" description="producer default group"/>
-        <property name="process.video.topic" defaultValue="PROCESS_VIDEO" description="process video"/>
+        <property name="arCompute.address"  defaultValue="PROCESS_VIDEO"/>
+        <property name="arCompute.user"  defaultValue="PROCESS_VIDEO"/>
+        <property name="arCompute.password"  defaultValue="PROCESS_VIDEO"/>
+        <property name="arCompute.period"  defaultValue="PROCESS_VIDEO"/>
+        <property name="arCompute.downloadVideoPrj"  defaultValue="PROCESS_VIDEO"/>
+        <property name="arCompute.downloadVideoFlow"  defaultValue="PROCESS_VIDEO"/>
+        <property name="arCompute.extractFeaturePrj"  defaultValue="PROCESS_VIDEO"/>
+        <property name="arCompute.extractFeatureFlow"  defaultValue="PROCESS_VIDEO"/>
+        <property name="rocketmq.namesrvAddr"  defaultValue="PROCESS_VIDEO"/>
+        <property name="rocketmq.defaultProducerGroup"  defaultValue="PROCESS_VIDEO"/>
+        <property name="rocketmq.calctopic"  defaultValue="PROCESS_VIDEO"/>
+        <property name="rocketmq.downVideo"  defaultValue="PROCESS_VIDEO"/>
+        <property name="rocketmq.processFeature"  defaultValue="PROCESS_VIDEO"/>
+        <property name="rocketmq.dumpFeature"  defaultValue="PROCESS_VIDEO"/>
+        <property name="rocketmq.defaultConsumerGroup"  defaultValue="PROCESS_VIDEO"/>
+        <property name="hbase.clientHost"  defaultValue="PROCESS_VIDEO"/>
+        <property name="hbase.clientPort"  defaultValue="PROCESS_VIDEO"/>
+        <property name="hbase.tcpnodelay"  defaultValue="PROCESS_VIDEO"/>
+        <property name="hbase.rpcTimeout"  defaultValue="PROCESS_VIDEO"/>
+        <property name="hbase.opTimeout"  defaultValue="PROCESS_VIDEO"/>
+        <property name="hbase.readTimeout"  defaultValue="PROCESS_VIDEO"/>
+        <property name="hbase.writeTimeout"  defaultValue="PROCESS_VIDEO"/>
+        <property name="hbase.enableAsync"  defaultValue="PROCESS_VIDEO"/>
+        <property name="hbase.asyncQueueSize"  defaultValue="PROCESS_VIDEO"/>
+        <property name="hbase.flushPeriod"  defaultValue="PROCESS_VIDEO"/>
+        <property name="hbase.maxRetries"  defaultValue="PROCESS_VIDEO"/>
+        <property name="hbase.maxThreadNum"  defaultValue="PROCESS_VIDEO"/>
+        <property name="hbase.threadPoolQueueSize"  defaultValue="PROCESS_VIDEO"/>
+        <property name="hbase.enablePrestart"  defaultValue="PROCESS_VIDEO"/>
+        <property name="hbase.enableParallelScan"  defaultValue="PROCESS_VIDEO"/>
+        <property name="hbase.maxParallelThreadNum"  defaultValue="PROCESS_VIDEO"/>
+        <property name="hbase.maxThreadNumPerScan"  defaultValue="PROCESS_VIDEO"/>
+
     </group>
     <script>
-        <generate template="consumer.xml" charset="GBK"/>
-        <generate template="producer.xml" charset="GBK"/>
-        <generate template="arCompute.properties" charset="GBK"/>
+        <generate template="application.properties" charset="GBK"/>
     </script>
 
 

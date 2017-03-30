@@ -58,10 +58,6 @@ public class FileUtils {
         return filePath.substring(filePath.lastIndexOf(".") + 1, filePath.length());
     }
 
-    public static void main(String[] args){
-
-    }
-
 
 
 

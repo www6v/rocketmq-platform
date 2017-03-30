@@ -19,5 +19,6 @@ public class ConstantUtil {
     public static int NUM_BUCKETS = 1024;
 
     public static final long SECOND_MASK = 0xFFFFFFFF00000000L;
+
     public static final short MAX_TIMESPAN = 3600;
 }

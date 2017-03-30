@@ -45,6 +45,7 @@ public class TopicController {
         sendTopicMsgRequest.setTag(rocketMqConfig.getDownVideo());
         return downVideoProducer.sendTopicMessageRequest(sendTopicMsgRequest);
     }
+
     @RequestMapping(value="/processFeature.ar",method={RequestMethod.POST})
     @ResponseBody
     public Object sendProcessFeatureMsg(SendTopicMsgRequest sendTopicMsgRequest){
@@ -52,6 +53,7 @@ public class TopicController {
         sendTopicMsgRequest.setTag(rocketMqConfig.getProcessFeature());
         return processFeatureProducer.sendTopicMessageRequest(sendTopicMsgRequest);
     }
+
     @RequestMapping(value="/dumpFeature.ar",method={RequestMethod.POST})
     @ResponseBody
     public Object sendDumpFeatureMsg(SendTopicMsgRequest sendTopicMsgRequest){

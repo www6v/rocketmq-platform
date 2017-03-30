@@ -23,7 +23,7 @@
         <rocketmq.version>4.0.0-incubating</rocketmq.version>
         <surefire.version>2.19.1</surefire.version>
         <aspectj.version>1.6.11</aspectj.version>
-        <docker.image.prefix>styletang</docker.image.prefix>
+        <docker.image.prefix>lenovo</docker.image.prefix>
         <hbase.version>2.0.0-SNAPSHOT</hbase.version>
     </properties>
 
@@ -99,18 +99,20 @@
 
     </dependencies>
     <build>
-        <finalName>arcloudapp</finalName>
+        <finalName>rocketmq-compute</finalName>
         <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
             <plugin>
                 <groupId>com.alibaba.citrus.tool</groupId>
                 <artifactId>autoconfig-maven-plugin</artifactId>
                 <version>1.2</version>
-                <configuration>
-                    <exploding>true</exploding>
-                </configuration>
                 <executions>
                     <execution>
-                        <phase>package</phase>
+                        <id>compile</id>
+                        <phase>compile</phase>
                         <goals>
                             <goal>autoconfig</goal>
                         </goals>

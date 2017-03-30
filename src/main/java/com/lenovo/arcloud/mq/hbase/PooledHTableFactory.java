@@ -32,9 +32,6 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class PooledHTableFactory implements TableFactory,DisposableBean {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    public static final int DEFAULT_POOL_SIZE = 256;
-    public static final int DEFAULT_WORKER_QUEUE_SIZE = 1024*5;
-    public static final boolean DEFAULT_PRESTART_THREAD_POOL = false;
 
     private  ExecutorService executorService;
     @Getter

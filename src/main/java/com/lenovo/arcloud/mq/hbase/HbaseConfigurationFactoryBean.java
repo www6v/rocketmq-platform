@@ -53,7 +53,6 @@ public class HbaseConfigurationFactoryBean implements InitializingBean,FactoryBe
     }
     
     private void initHbaseProperties(){
-        //Properties properties = new Properties();
         configuration.set("hbase.zookeeper.quorum",hbaseConfig.getClientHost());
         configuration.set("hbase.zookeeper.property.clientPort",hbaseConfig.getClientPort()); 
         configuration.set("hbase.ipc.client.tcpnodelay",hbaseConfig.getTcpnodelay());
@@ -65,17 +64,6 @@ public class HbaseConfigurationFactoryBean implements InitializingBean,FactoryBe
         configuration.set("hbase.client.async.in.queuesize",hbaseConfig.getAsyncQueueSize());
         configuration.set("hbase.tablemultiplexer.flush.period.ms",hbaseConfig.getFlushPeriod());
         configuration.set("hbase.client.max.retries.in.queue",hbaseConfig.getMaxRetries());
-        //addProperties(properties);
     }
-    
-    /*private void addProperties(Properties properties){
-        Assert.notNull(configuration, "A non-null configuration is required");
-        if(properties != null){
-            Enumeration<?> enumeration = properties.propertyNames();
-            while(enumeration.hasMoreElements()){
-                String key = enumeration.nextElement().toString();
-                configuration.set(key,properties.getProperty(key));
-            }
-        }
-    }*/
+
 }

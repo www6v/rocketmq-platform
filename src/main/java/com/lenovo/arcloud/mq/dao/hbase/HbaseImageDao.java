@@ -81,35 +81,6 @@ public class HbaseImageDao implements ImageDao {
         if (!StringUtils.isEmpty(imageObj.getCheckSum())) {
             p.addColumn(HbaseTables.IMAGE_META_INFO, HbaseTables.IMAGE_META_INFO_CKSUM, Bytes.toBytes(imageObj.getCheckSum()));
         }
-
-       /* BufferedImage image;
-        if (!StringUtils.isEmpty(imageObj.getPath())) {
-            if (imageObj.getPath().indexOf("http:") >= 0) {
-                try {
-                    URL imageUrl = new URL(imageObj.getPath());
-                    image = ImageIO.read(imageUrl);
-                } catch (MalformedURLException e) {
-                    throw new HbaseAccessException("url format is not right>>>" + imageObj.getPath(), e);
-                } catch (IOException ie) {
-                    throw new HbaseAccessException("url target is not exist>>>" + imageObj.getPath(), ie);
-                }
-            } else {
-                File imageFile = new File(imageObj.getPath());
-                try {
-                    image = ImageIO.read(imageFile);
-                } catch (IOException e) {
-                    throw new HbaseAccessException("path target is not exist>>>" + imageObj.getPath(), e);
-                }
-            }
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            try {
-                ImageIO.write(image, imageObj.getExt(), outputStream);
-            } catch (IOException e) {
-                throw new HbaseAccessException(e.getMessage());
-            }
-            p.addColumn(HbaseTables.IMAGE_MOB, HbaseTables.IMAGE_MOB, outputStream.toByteArray());
-        }*/
-
         return p;
     }
 
