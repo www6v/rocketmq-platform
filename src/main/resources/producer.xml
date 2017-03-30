@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <bean id="downVideoProducer" class="com.lenovo.arcloud.mq.compute.CommonProducer" init-method="init" destroy-method="close">
+        <property name="namesrvAddr" value="${rocketmq_namesrvAddr}" />
+        <property name="producerGroup" value="${rocketmq_defaultProducerGroup}" />
+        <property name="topic" value="${rocketmq_calctopic}"/>
+        <property name="tags" value="${rocketmq_downVideo}"/>
+    </bean>
+
+    <bean id="processFeatureProducer" class="com.lenovo.arcloud.mq.compute.CommonProducer" init-method="init" destroy-method="close">
+        <property name="namesrvAddr" value="${rocketmq_namesrvAddr}" />
+        <property name="producerGroup" value="${rocketmq_defaultProducerGroup}" />
+        <property name="topic" value="${rocketmq_calctopic}"/>
+        <property name="tags" value="${rocketmq_processFeature}"/>
+    </bean>
+
+    <bean id="dumpFeatureProducer" class="com.lenovo.arcloud.mq.compute.CommonProducer" init-method="init" destroy-method="close">
+        <property name="namesrvAddr" value="${rocketmq_namesrvAddr}" />
+        <property name="producerGroup" value="${rocketmq_defaultProducerGroup}" />
+        <property name="topic" value="${rocketmq_calctopic}"/>
+        <property name="tags" value="${rocketmq_dumpFeature}"/>
+    </bean>
+
+</beans>

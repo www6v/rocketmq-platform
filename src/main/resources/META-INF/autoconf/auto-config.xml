@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="GBK"?>
+
+<config description="Autoconfig Template">
+    <group name="rocketmq">
+        <property name="rocketmq.namesrvAddr" defaultValue="mq-namesrv1:9876" description="name server address"/>
+        <property name="producer.defaultGroup" defaultValue="SELF_TEST_P_GROUP" description="producer default group"/>
+        <property name="process.video.topic" defaultValue="PROCESS_VIDEO" description="process video"/>
+    </group>
+    <script>
+        <generate template="consumer.xml" charset="GBK"/>
+        <generate template="producer.xml" charset="GBK"/>
+        <generate template="arCompute.properties" charset="GBK"/>
+    </script>
+
+
+</config>

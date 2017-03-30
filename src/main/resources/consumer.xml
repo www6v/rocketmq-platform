@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+    <bean id="downVideoConsumer" class="com.lenovo.arcloud.mq.compute.DownVideoConsumer"  init-method="init" destroy-method="close">
+        <property name="namesrvAddr" value="${rocketmq_namesrvAddr}" />
+        <property name="consumerGroup" value="${rocketmq_defaultConsumerGroup}" />
+        <property name="topic" value="${rocketmq_calctopic}"/>
+        <property name="tags" value="${rocketmq_namesrvAddr}"/>
+        <property name="exeFlowService" ref="exeFlowService"/>
+        <property name="downloadPrj" value="${AR_downloadPrj}"/>
+        <property name="downloadFlow" value="${AR_downloadFlow}"/>
+    </bean>
+
+    <bean id="processFeatureConsumer" class="com.lenovo.arcloud.mq.compute.ProcessFeatureConsumer"  init-method="init" destroy-method="close">
+        <property name="namesrvAddr" value="${rocketmq_namesrvAddr}" />
+        <property name="consumerGroup" value="${rocketmq_defaultConsumerGroup}" />
+        <property name="topic" value="${rocketmq_calctopic}"/>
+        <property name="tags" value="${rocketmq_namesrvAddr}"/>
+        <property name="processFeaturePrj" value="${AR_processFeaturePrj}"/>
+        <property name="processFeatureFlow" value="${AR_processFeatureFlow}"/>
+    </bean>
+
+    <bean id="saveFeatureConsumer" class="com.lenovo.arcloud.mq.compute.SaveFeatureConsumer"  init-method="init" destroy-method="close">
+        <property name="namesrvAddr" value="${rocketmq_namesrvAddr}" />
+        <property name="consumerGroup" value="${rocketmq_defaultConsumerGroup}" />
+        <property name="topic" value="${rocketmq_calctopic}"/>
+        <property name="tags" value="${rocketmq_namesrvAddr}"/>
+        <property name="hbaseImageDao" ref="hbaseImageDao"/>
+    </bean>
+
+</beans>
