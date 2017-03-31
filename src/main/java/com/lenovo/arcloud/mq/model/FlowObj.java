@@ -1,3 +1,6 @@
+/*
+ * Copyright 2009-2017 Lenovo Software, Inc. All rights reserved.
+ */
 package com.lenovo.arcloud.mq.model;
 
 /***
@@ -8,8 +11,9 @@ package com.lenovo.arcloud.mq.model;
  *
  */
 public class FlowObj {
-    public FlowObj(){
+    public FlowObj() {
     }
+
     public FlowObj(String projectName, Long projectId, String flowName, String scheduleTime, String scheduleDate) {
         this.projectName = projectName;
         this.projectId = projectId;
@@ -17,12 +21,13 @@ public class FlowObj {
         this.scheduleTime = scheduleTime;
         this.scheduleDate = scheduleDate;
     }
+
     private String projectName;
     private Long projectId;
     private String flowName;
     private String scheduleTime;
     private String scheduleDate;
-    private String is_recurring;
+    private String isRecurring;
     private String period;
     private Integer periodVal;
 
@@ -130,7 +135,7 @@ public class FlowObj {
         return flowName;
     }
 
-    public  FlowObj setFlowName(String flowName) {
+    public FlowObj setFlowName(String flowName) {
         this.flowName = flowName;
         return this;
     }
@@ -139,7 +144,7 @@ public class FlowObj {
         return scheduleTime;
     }
 
-    public  FlowObj setScheduleTime(String scheduleTime) {
+    public FlowObj setScheduleTime(String scheduleTime) {
         this.scheduleTime = scheduleTime;
         return this;
     }
@@ -148,17 +153,17 @@ public class FlowObj {
         return scheduleDate;
     }
 
-    public  FlowObj setScheduleDate(String scheduleDate) {
+    public FlowObj setScheduleDate(String scheduleDate) {
         this.scheduleDate = scheduleDate;
         return this;
     }
 
-    public String getIs_recurring() {
-        return is_recurring;
+    public String getIsRecurring() {
+        return isRecurring;
     }
 
-    public  FlowObj setIs_recurring() {
-        this.is_recurring = "on";
+    public FlowObj setIsRecurring() {
+        this.isRecurring = "on";
         return this;
     }
 
@@ -166,7 +171,7 @@ public class FlowObj {
         return period;
     }
 
-    public  FlowObj setPeriod(String period) {
+    public FlowObj setPeriod(String period) {
         this.period = period;
         return this;
     }
@@ -183,13 +188,13 @@ public class FlowObj {
     @Override
     public String toString() {
         return "FlowObj{" +
-                "projectName='" + projectName + '\'' +
-                ", projectId=" + projectId +
-                ", flowName='" + flowName + '\'' +
-                ", scheduleTime='" + scheduleTime + '\'' +
-                ", scheduleDate='" + scheduleDate + '\'' +
-                ", is_recurring='" + is_recurring + '\'' +
-                ", period='" + period + '\'' +
-                '}';
+            "projectName='" + projectName + '\'' +
+            ", projectId=" + projectId +
+            ", flowName='" + flowName + '\'' +
+            ", scheduleTime='" + scheduleTime + '\'' +
+            ", scheduleDate='" + scheduleDate + '\'' +
+            ", is_recurring='" + isRecurring + '\'' +
+            ", period='" + period + '\'' +
+            '}';
     }
 }

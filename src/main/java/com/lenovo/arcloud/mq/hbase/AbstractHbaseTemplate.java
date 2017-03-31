@@ -1,9 +1,11 @@
+/*
+ * Copyright 2009-2017 Lenovo Software, Inc. All rights reserved.
+ */
 package com.lenovo.arcloud.mq.hbase;
 
 import com.lenovo.arcloud.mq.util.StringUtils;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.hadoop.conf.Configuration;
 
 import javax.annotation.Resource;
 import java.nio.charset.Charset;
@@ -16,7 +18,6 @@ import java.nio.charset.Charset;
  *
  */
 public class AbstractHbaseTemplate {
-
 
     private static final Charset CHARSET = Charset.forName("UTF-8");
 
@@ -31,7 +32,7 @@ public class AbstractHbaseTemplate {
     @Setter
     private String encoding;
 
-    public Charset getCharset(){
-        return !StringUtils.isEmpty(encoding)?Charset.forName(encoding):CHARSET;
+    public Charset getCharset() {
+        return !StringUtils.isEmpty(encoding) ? Charset.forName(encoding) : CHARSET;
     }
 }

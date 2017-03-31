@@ -1,3 +1,6 @@
+/*
+ * Copyright 2009-2017 Lenovo Software, Inc. All rights reserved.
+ */
 package com.lenovo.arcloud.mq.model;
 
 /***
@@ -9,9 +12,9 @@ package com.lenovo.arcloud.mq.model;
  */
 public class RECExecutionHistory extends RECExecutionSince {
     /*
-    数据：
-        执行流的信息
-        nodes:对象数组，存放执行流中执行的所有job的执行结果
+    data:
+        flow info
+        nodes:object array, include all job info
            {
               "project" : "Job-Test",
               "updateTime" : 1472729400134,
@@ -59,39 +62,41 @@ public class RECExecutionHistory extends RECExecutionSince {
         String project = getJsonObject().getString("project");
         return project;
     }
-    public String getType(){
-        if(null == getJsonObject()){
+
+    public String getType() {
+        if (null == getJsonObject()) {
             return null;
         }
         String type = getJsonObject().getString("type");
         return type;
     }
-    public long getSubmitTime(){
-        if(null == getJsonObject()){
+
+    public long getSubmitTime() {
+        if (null == getJsonObject()) {
             return 0L;
         }
         long time = getJsonObject().getLong("submitTime");
         return time;
     }
 
-    public String getExecId(){
-        if(null == getJsonObject()){
+    public String getExecId() {
+        if (null == getJsonObject()) {
             return null;
         }
         String execId = getJsonObject().getString("execid");
         return execId;
     }
 
-    public String getProjectId(){
-        if(null == getJsonObject()){
+    public String getProjectId() {
+        if (null == getJsonObject()) {
             return null;
         }
         String projectId = getJsonObject().getString("projectId");
         return projectId;
     }
 
-    public String getFlowId(){
-        if(null == getJsonObject()){
+    public String getFlowId() {
+        if (null == getJsonObject()) {
             return null;
         }
         String flowId = getJsonObject().getString("flowId");

@@ -1,3 +1,6 @@
+/*
+ * Copyright 2009-2017 Lenovo Software, Inc. All rights reserved.
+ */
 package com.lenovo.arcloud.mq.util;
 
 import static com.lenovo.arcloud.mq.util.BytesUtils.LONG_BYTE_LENGTH;

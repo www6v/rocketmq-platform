@@ -1,5 +1,7 @@
+/*
+ * Copyright 2009-2017 Lenovo Software, Inc. All rights reserved.
+ */
 package com.lenovo.arcloud.mq.util;
-
 
 import com.google.common.io.ByteStreams;
 
@@ -9,10 +11,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
-import java.nio.channels.Channel;
-import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
-import java.nio.channels.ReadableByteChannel;
 
 /***
  * Description
@@ -31,7 +30,8 @@ public class FileUtils {
             int crc16 = Checksum.crc16(Checksum.CRC16_X25, byteBuffer);
             in.close();
             return crc16;
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new ArSystemException("calculate file crc16 failure", e);
         }
     }
@@ -44,12 +44,13 @@ public class FileUtils {
             int crc16 = Checksum.crc16(Checksum.CRC16_X25, byteBuffer);
             inputStream.close();
             return crc16;
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new ArSystemException("calculate http file crc16 failure", e);
         }
     }
 
-    public static int getCRC16(byte[] byteArr){
+    public static int getCRC16(byte[] byteArr) {
         ByteBuffer byteBuffer = ByteBuffer.wrap(byteArr);
         return Checksum.crc16(Checksum.CRC16_X25, byteBuffer);
     }
@@ -57,10 +58,5 @@ public class FileUtils {
     public static String getFileExtension(String filePath) {
         return filePath.substring(filePath.lastIndexOf(".") + 1, filePath.length());
     }
-
-
-
-
-
 
 }

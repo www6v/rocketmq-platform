@@ -1,3 +1,6 @@
+/*
+ * Copyright 2009-2017 Lenovo Software, Inc. All rights reserved.
+ */
 package com.lenovo.arcloud.mq.util;
 
 /***
@@ -17,7 +20,8 @@ public class BytesUtils {
         return writeBytes(buffer, bufferOffset, srcBytes, 0, srcBytes.length);
     }
 
-    public static int writeBytes(final byte[] buffer, final int bufferOffset, final byte[] srcBytes, final int srcOffset, final int srcLength) {
+    public static int writeBytes(final byte[] buffer, final int bufferOffset, final byte[] srcBytes,
+        final int srcOffset, final int srcLength) {
         if (buffer == null) {
             throw new NullPointerException("buffer must not be null");
         }
@@ -44,14 +48,14 @@ public class BytesUtils {
         if (buf.length < offset + LONG_BYTE_LENGTH) {
             throw new IndexOutOfBoundsException("buf.length is too small. buf.length:" + buf.length + " offset:" + (offset + 8));
         }
-        buf[offset++] = (byte) (value >> 56);
-        buf[offset++] = (byte) (value >> 48);
-        buf[offset++] = (byte) (value >> 40);
-        buf[offset++] = (byte) (value >> 32);
-        buf[offset++] = (byte) (value >> 24);
-        buf[offset++] = (byte) (value >> 16);
-        buf[offset++] = (byte) (value >> 8);
-        buf[offset++] = (byte) (value);
+        buf[offset++] = (byte)(value >> 56);
+        buf[offset++] = (byte)(value >> 48);
+        buf[offset++] = (byte)(value >> 40);
+        buf[offset++] = (byte)(value >> 32);
+        buf[offset++] = (byte)(value >> 24);
+        buf[offset++] = (byte)(value >> 16);
+        buf[offset++] = (byte)(value >> 8);
+        buf[offset++] = (byte)value;
         return offset;
     }
 }

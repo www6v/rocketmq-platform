@@ -1,3 +1,6 @@
+/*
+ * Copyright 2009-2017 Lenovo Software, Inc. All rights reserved.
+ */
 package com.lenovo.arcloud.mq.util;
 
 import java.util.concurrent.ThreadFactory;
@@ -10,29 +13,31 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @since 2017/3/29
  *
  */
-public class ArThreadFactory implements ThreadFactory{
+public class ArThreadFactory implements ThreadFactory {
     private final static AtomicInteger FACTORY_NUMBER = new AtomicInteger(0);
-    private final static AtomicInteger threadNumber = new AtomicInteger(0);
+    private final static AtomicInteger THREAD_NUMBER = new AtomicInteger(0);
 
     private final String threadPrefix;
     private final boolean daemon;
 
-    public ArThreadFactory(){
-        this("ArCloud",false);
+    public ArThreadFactory() {
+        this("ArCloud", false);
     }
-    public ArThreadFactory(String threadName){
-        this(threadName,false);
+
+    public ArThreadFactory(String threadName) {
+        this(threadName, false);
     }
-    public ArThreadFactory(String threadName,boolean daemon){
-        if(threadName == null){
+
+    public ArThreadFactory(String threadName, boolean daemon) {
+        if (threadName == null) {
             throw new NullPointerException("threadName");
         }
-        this.threadPrefix = prefix(threadName,FACTORY_NUMBER.getAndIncrement());
+        this.threadPrefix = prefix(threadName, FACTORY_NUMBER.getAndIncrement());
         this.daemon = daemon;
 
     }
 
-    private String prefix(String threadName,int factoryId){
+    private String prefix(String threadName, int factoryId) {
         final StringBuilder sb = new StringBuilder(32);
         sb.append(threadName);
         sb.append('-');
@@ -44,25 +49,25 @@ public class ArThreadFactory implements ThreadFactory{
     @Override
     public Thread newThread(Runnable r) {
         String newThreadName = createThreadName();
-        Thread thread = new Thread(r,newThreadName);
-        if(daemon){
+        Thread thread = new Thread(r, newThreadName);
+        if (daemon) {
             thread.setDaemon(true);
         }
         return thread;
     }
 
-    private String createThreadName(){
-        StringBuilder sb = new StringBuilder(threadPrefix.length()+8);
+    private String createThreadName() {
+        StringBuilder sb = new StringBuilder(threadPrefix.length() + 8);
         sb.append(threadPrefix);
-        sb.append(threadNumber.getAndIncrement());
+        sb.append(THREAD_NUMBER.getAndIncrement());
         return sb.toString();
     }
 
-    public static ThreadFactory createThreadFactory(String threadName){
-        return createThreadFactory(threadName,false);
+    public static ThreadFactory createThreadFactory(String threadName) {
+        return createThreadFactory(threadName, false);
     }
 
-    public static ThreadFactory createThreadFactory(String threadName,boolean daemon){
-        return new ArThreadFactory(threadName,daemon);
+    public static ThreadFactory createThreadFactory(String threadName, boolean daemon) {
+        return new ArThreadFactory(threadName, daemon);
     }
 }

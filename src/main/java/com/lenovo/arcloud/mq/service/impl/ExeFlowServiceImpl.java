@@ -1,3 +1,6 @@
+/*
+ * Copyright 2009-2017 Lenovo Software, Inc. All rights reserved.
+ */
 package com.lenovo.arcloud.mq.service.impl;
 
 import com.lenovo.arcloud.mq.model.FlowObj;
@@ -31,62 +34,64 @@ public class ExeFlowServiceImpl implements ExeFlowService {
     public Object Fetchflows(String projectName) {
         try {
             response = RequestUtils.get(RequestUrl.MANAGER).queryString("ajax", "fetchprojectflows")
-                    .queryString("project", projectName).asJson();
+                .queryString("project", projectName).asJson();
 
-        } catch (UnirestException e) {
-            logger.error("网络异常！");
-            throw new IllegalArgumentException("网络异常！", e);
+        }
+        catch (UnirestException e) {
+            logger.error("network exception!");
+            throw new IllegalArgumentException("network exception!", e);
         }
         return response.getBody().getObject().get("flows");
     }
 
     @Override
-    public JSONObject ExecuteFlow(FlowObj obj,Map<String,String> flowProps) {
-        try{
+    public JSONObject ExecuteFlow(FlowObj obj, Map<String, String> flowProps) {
+        try {
             HttpRequest request = RequestUtils.get(RequestUrl.EXECUTOR)
-                    .queryString("ajax","executeFlow")
-                    .queryString("project",obj.getProjectName())
-                    .queryString("flow",obj.getFlowName())
-                    .queryString("disabled",obj.getDisabled())
-                    .queryString("successEmails",obj.getSuccessEmails())
-                    .queryString("failureEmails",obj.getFailureEmails())
-                    .queryString("successEmailsOverride",obj.isSuccessOverride())
-                    .queryString("failureEmailsOverride",obj.isFailOverride())
-                    .queryString("notifyFailUreFirst",obj.isNotifyFailFirst())
-                    .queryString("notifyFailureLast",obj.isNotifyFailLast())
-                    .queryString("failureAction",obj.getFailAction())
-                    .queryString("concurrentOption",obj.getConcurrentOption());
+                .queryString("ajax", "executeFlow")
+                .queryString("project", obj.getProjectName())
+                .queryString("flow", obj.getFlowName())
+                .queryString("disabled", obj.getDisabled())
+                .queryString("successEmails", obj.getSuccessEmails())
+                .queryString("failureEmails", obj.getFailureEmails())
+                .queryString("successEmailsOverride", obj.isSuccessOverride())
+                .queryString("failureEmailsOverride", obj.isFailOverride())
+                .queryString("notifyFailUreFirst", obj.isNotifyFailFirst())
+                .queryString("notifyFailureLast", obj.isNotifyFailLast())
+                .queryString("failureAction", obj.getFailAction())
+                .queryString("concurrentOption", obj.getConcurrentOption());
             for (String key : flowProps.keySet()) {
-                request.queryString("flowOverride["+key+"]",flowProps.get(key));
+                request.queryString("flowOverride[" + key + "]", flowProps.get(key));
             }
             response = request.asJson();
-        }catch (UnirestException e){
-            logger.error("计算已开始");
-            throw new IllegalArgumentException("计算已开始",e);
+        }
+        catch (UnirestException e) {
+            logger.error("compute failure");
+            throw new IllegalArgumentException("compute failure", e);
         }
         return response.getBody().getObject();
     }
 
     /**
-     * 获取执行流中所有的job信息
-     * (job执行的依赖关系存放在json的in字段中)
+     * Fetch all job info of executing flow
+     * the dependency of job is included in "in" field of json
      */
     @Override
     public RECExecutionHistory fetchFlowExecution(String execId) {
         HttpResponse<String> response;
         try {
             response = RequestUtils.get(RequestUrl.EXECUTOR)
-                    .queryString("execid",execId)
-                    .queryString("ajax","fetchexecflow")
-                    .asString();
-        } catch (UnirestException e) {
-            logger.error("查询执行流中的job列表失败", e);
-            throw new IllegalStateException("查询执行流中的job列表失败", e);
+                .queryString("execid", execId)
+                .queryString("ajax", "fetchexecflow")
+                .asString();
+        }
+        catch (UnirestException e) {
+            logger.error("fetch job failure", e);
+            throw new IllegalStateException("fetch job failure", e);
         }
         String responseData = response.getBody();
 
-
-        //返回复杂的json数据
+        //parse json
         RECExecutionHistory recExecutionHistory = new RECExecutionHistory();
         recExecutionHistory.setJsonObject(new JSONObject(responseData));
 

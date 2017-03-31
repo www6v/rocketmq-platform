@@ -1,3 +1,6 @@
+/*
+ * Copyright 2009-2017 Lenovo Software, Inc. All rights reserved.
+ */
 package com.lenovo.arcloud.mq.compute;
 
 import com.google.common.base.Throwables;
@@ -23,7 +26,6 @@ import javax.annotation.Resource;
 @Service
 public class CommonProducer extends DefaultMQProducer {
 
-
     @Resource
     private RocketMqConfig rocketMqConfig;
 
@@ -33,30 +35,29 @@ public class CommonProducer extends DefaultMQProducer {
             this.setNamesrvAddr(rocketMqConfig.getNamesrvAddr());
             this.setProducerGroup(rocketMqConfig.getDefaultProducerGroup());
             this.start();
-        } catch (MQClientException e) {
+        }
+        catch (MQClientException e) {
             e.printStackTrace();
         }
     }
 
     @PreDestroy
-    public void close(){
+    public void close() {
         this.shutdown();
     }
 
-
     public SendResult sendTopicMessageRequest(SendTopicMsgRequest request) {
         Message msg = new Message(request.getTopic(),
-                request.getTag(),
-                request.getMessageBody().getBytes()
+            request.getTag(),
+            request.getMessageBody().getBytes()
         );
         try {
             return this.send(msg);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw Throwables.propagate(e);
         }
 
     }
-
-
 
 }

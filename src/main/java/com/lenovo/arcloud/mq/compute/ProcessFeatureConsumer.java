@@ -1,3 +1,6 @@
+/*
+ * Copyright 2009-2017 Lenovo Software, Inc. All rights reserved.
+ */
 package com.lenovo.arcloud.mq.compute;
 
 import com.alibaba.fastjson.JSONObject;
@@ -7,8 +10,6 @@ import com.lenovo.arcloud.mq.config.RocketMqConfig;
 import com.lenovo.arcloud.mq.model.FlowObj;
 import com.lenovo.arcloud.mq.service.ExeFlowService;
 import com.lenovo.arcloud.mq.util.ConstantUtil;
-import lombok.Getter;
-import lombok.Setter;
 import org.apache.log4j.Logger;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
@@ -53,7 +54,8 @@ public class ProcessFeatureConsumer extends DefaultMQPushConsumer {
             this.subscribe(rocketMqConfig.getCalctopic(), rocketMqConfig.getProcessFeature());
             this.registerMessageListener(new ProcessFeatureListener());
             this.start();
-        } catch (MQClientException e) {
+        }
+        catch (MQClientException e) {
             e.printStackTrace();
         }
 
@@ -66,14 +68,16 @@ public class ProcessFeatureConsumer extends DefaultMQPushConsumer {
 
     class ProcessFeatureListener implements MessageListenerConcurrently {
         @Override
-        public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> list, ConsumeConcurrentlyContext consumeConcurrentlyContext) {
+        public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> list,
+            ConsumeConcurrentlyContext consumeConcurrentlyContext) {
             MessageExt messageExt = list.get(0);
             try {
                 String message = new String(messageExt.getBody(), "UTF-8");
                 JSONObject json = JSONObject.parseObject(message);
                 String videoPath = json.getString(ConstantUtil.VIDEO_PATH);
                 processFeature(videoPath);
-            } catch (UnsupportedEncodingException e) {
+            }
+            catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
 

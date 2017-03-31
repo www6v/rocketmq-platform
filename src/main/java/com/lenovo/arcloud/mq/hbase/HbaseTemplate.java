@@ -1,3 +1,6 @@
+/*
+ * Copyright 2009-2017 Lenovo Software, Inc. All rights reserved.
+ */
 package com.lenovo.arcloud.mq.hbase;
 
 import com.google.common.collect.Lists;
@@ -5,9 +8,22 @@ import com.lenovo.arcloud.mq.config.HbaseConfig;
 import com.lenovo.arcloud.mq.util.ArThreadFactory;
 import com.lenovo.arcloud.mq.util.ExecutorFactory;
 import com.lenovo.arcloud.mq.util.StopWatch;
-import lombok.Setter;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import org.apache.hadoop.hbase.TableName;
-import org.apache.hadoop.hbase.client.*;
+import org.apache.hadoop.hbase.client.Delete;
+import org.apache.hadoop.hbase.client.Durability;
+import org.apache.hadoop.hbase.client.Get;
+import org.apache.hadoop.hbase.client.Increment;
+import org.apache.hadoop.hbase.client.Put;
+import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.client.ResultScanner;
+import org.apache.hadoop.hbase.client.Scan;
+import org.apache.hadoop.hbase.client.Table;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
@@ -19,7 +35,6 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /***
@@ -30,7 +45,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *
  */
 @Service
-public class HbaseTemplate extends AbstractHbaseTemplate implements HbaseOperations,InitializingBean,DisposableBean{
+public class HbaseTemplate extends AbstractHbaseTemplate implements HbaseOperations, InitializingBean, DisposableBean {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private static final long DEFAULT_DESTORY_TIMEOUT = 2000;
 
@@ -39,11 +54,9 @@ public class HbaseTemplate extends AbstractHbaseTemplate implements HbaseOperati
     @Resource
     private HbaseConfig hbaseConfig;
 
-
     private ExecutorService executorService;
 
     private HbaseAsyncOperation asyncOperation = DisabledHbaseAsyncOperation.INSTANCE;
-
 
     public void setAsyncOperation(HbaseAsyncOperation asyncOperation) {
         if (asyncOperation == null) {
@@ -52,8 +65,8 @@ public class HbaseTemplate extends AbstractHbaseTemplate implements HbaseOperati
         this.asyncOperation = asyncOperation;
     }
 
-    private void assertAccessAvailable(){
-        if(isClose.get()){
+    private void assertAccessAvailable() {
+        if (isClose.get()) {
             throw new HbaseAccessException("hbase already close");
         }
     }
@@ -63,7 +76,8 @@ public class HbaseTemplate extends AbstractHbaseTemplate implements HbaseOperati
         if (familyName != null) {
             if (timestamp == null) {
                 put.addColumn(familyName, qualifier, value);
-            } else {
+            }
+            else {
                 put.addColumn(familyName, qualifier, timestamp, value);
             }
         }
@@ -75,7 +89,8 @@ public class HbaseTemplate extends AbstractHbaseTemplate implements HbaseOperati
     }
 
     @Override
-    public <T> T get(TableName tableName, final String rowName, final String familyName, final String qualifier, final RowMapper<T> mapper) {
+    public <T> T get(TableName tableName, final String rowName, final String familyName, final String qualifier,
+        final RowMapper<T> mapper) {
         assertAccessAvailable();
         return execute(tableName, new TableCallback<T>() {
             @Override
@@ -86,7 +101,8 @@ public class HbaseTemplate extends AbstractHbaseTemplate implements HbaseOperati
 
                     if (qualifier != null) {
                         get.addColumn(family, qualifier.getBytes(getCharset()));
-                    } else {
+                    }
+                    else {
                         get.addFamily(family);
                     }
                 }
@@ -109,7 +125,8 @@ public class HbaseTemplate extends AbstractHbaseTemplate implements HbaseOperati
     }
 
     @Override
-    public void put(TableName tableName, final byte[] rowName, final byte[] familyName, final byte[] qualifier, final Long timestamp, final byte[] value) {
+    public void put(TableName tableName, final byte[] rowName, final byte[] familyName, final byte[] qualifier,
+        final Long timestamp, final byte[] value) {
         assertAccessAvailable();
         execute(tableName, new TableCallback() {
             @Override
@@ -150,7 +167,8 @@ public class HbaseTemplate extends AbstractHbaseTemplate implements HbaseOperati
         assertAccessAvailable();
         if (asyncOperation.isAvailable()) {
             return asyncOperation.put(tableName, puts);
-        } else {
+        }
+        else {
             put(tableName, puts);
             return Collections.emptyList();
         }
@@ -180,7 +198,8 @@ public class HbaseTemplate extends AbstractHbaseTemplate implements HbaseOperati
                     try {
                         T t = action.extractData(scanner);
                         result.add(t);
-                    } finally {
+                    }
+                    finally {
                         scanner.close();
                     }
                 }
@@ -190,7 +209,7 @@ public class HbaseTemplate extends AbstractHbaseTemplate implements HbaseOperati
     }
 
     @Override
-    public <T> List<T> findParallel(final TableName tableName, List<Scan> scans,final ResultsExtractor<T> action) {
+    public <T> List<T> findParallel(final TableName tableName, List<Scan> scans, final ResultsExtractor<T> action) {
         assertAccessAvailable();
         if (!hbaseConfig.isEnableParallelScan() || scans.size() == 1) {
             return find(tableName, scans, action);
@@ -207,7 +226,8 @@ public class HbaseTemplate extends AbstractHbaseTemplate implements HbaseOperati
                             final ResultScanner scanner = table.getScanner(scan);
                             try {
                                 return action.extractData(scanner);
-                            } finally {
+                            }
+                            finally {
                                 scanner.close();
                             }
                         }
@@ -222,11 +242,13 @@ public class HbaseTemplate extends AbstractHbaseTemplate implements HbaseOperati
                 for (Future<T> future : futures) {
                     results.add(future.get());
                 }
-            } catch (InterruptedException e) {
+            }
+            catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 logger.warn("interrupted while findParallel [{}].", tableName);
                 return Collections.emptyList();
-            } catch (ExecutionException e) {
+            }
+            catch (ExecutionException e) {
                 logger.warn("findParallel [{}], error : {}", tableName, e);
                 return Collections.emptyList();
             }
@@ -246,12 +268,13 @@ public class HbaseTemplate extends AbstractHbaseTemplate implements HbaseOperati
     }
 
     @Override
-    public long incrementColumnValue(TableName tableName, final byte[] rowName, final byte[] familyName, final byte[] qualifier, final long amount, final boolean writeToWAL) {
+    public long incrementColumnValue(TableName tableName, final byte[] rowName, final byte[] familyName,
+        final byte[] qualifier, final long amount, final boolean writeToWAL) {
         assertAccessAvailable();
         return execute(tableName, new TableCallback<Long>() {
             @Override
             public Long doInTable(Table table) throws Throwable {
-                return table.incrementColumnValue(rowName, familyName, qualifier, amount, writeToWAL? Durability.SKIP_WAL: Durability.USE_DEFAULT);
+                return table.incrementColumnValue(rowName, familyName, qualifier, amount, writeToWAL ? Durability.SKIP_WAL : Durability.USE_DEFAULT);
             }
         });
     }
@@ -266,15 +289,17 @@ public class HbaseTemplate extends AbstractHbaseTemplate implements HbaseOperati
         try {
             T result = action.doInTable(table);
             return result;
-        } catch (Throwable e) {
+        }
+        catch (Throwable e) {
             if (e instanceof Error) {
-                throw ((Error) e);
+                throw (Error)e;
             }
             if (e instanceof RuntimeException) {
-                throw ((RuntimeException) e);
+                throw (RuntimeException)e;
             }
-            throw new HbaseSystemException((Exception) e);
-        }finally {
+            throw new HbaseSystemException((Exception)e);
+        }
+        finally {
             releaseTable(table);
         }
     }
@@ -283,18 +308,18 @@ public class HbaseTemplate extends AbstractHbaseTemplate implements HbaseOperati
         getTableFactory().releaseTable(table);
     }
 
-
     @Override
     public void afterPropertiesSet() throws Exception {
-        Assert.notNull(getHbaseConfiguration(),"configuration is required");
-        Assert.notNull(getTableFactory(),"TableFactory is required");
+        Assert.notNull(getHbaseConfiguration(), "configuration is required");
+        Assert.notNull(getTableFactory(), "TableFactory is required");
 
         ArThreadFactory parallelScannerThreadFactory = new ArThreadFactory("AR-HBase-Parallel-scanner");
-        if(hbaseConfig.getMaxThreadNumPerScan() <= 1){
+        if (hbaseConfig.getMaxThreadNumPerScan() <= 1) {
             hbaseConfig.setEnableParallelScan(false);
             this.executorService = Executors.newSingleThreadExecutor(parallelScannerThreadFactory);
-        }else{
-            this.executorService = ExecutorFactory.newFixedThreadPool(hbaseConfig.getMaxParallelThreadNum(),1024,parallelScannerThreadFactory);
+        }
+        else {
+            this.executorService = ExecutorFactory.newFixedThreadPool(hbaseConfig.getMaxParallelThreadNum(), 1024, parallelScannerThreadFactory);
         }
     }
 
@@ -303,39 +328,41 @@ public class HbaseTemplate extends AbstractHbaseTemplate implements HbaseOperati
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
 
-        if(isClose.compareAndSet(false,true)){
+        if (isClose.compareAndSet(false, true)) {
             logger.info("HBaseTemplate destroy");
             final ExecutorService executor = this.executorService;
-            if(executor != null){
+            if (executor != null) {
                 executor.shutdown();
                 try {
                     executor.awaitTermination(DEFAULT_DESTORY_TIMEOUT, TimeUnit.MILLISECONDS);
-                } catch (InterruptedException e) {
+                }
+                catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
             }
             long remainingTime = Math.max(DEFAULT_DESTORY_TIMEOUT - stopWatch.stop(), 100);
-            awaitAsyncPutOpsCleared(remainingTime,50);
+            awaitAsyncPutOpsCleared(remainingTime, 50);
 
         }
     }
 
-    private boolean awaitAsyncPutOpsCleared(long waitTimeout,long checkUnitTime){
+    private boolean awaitAsyncPutOpsCleared(long waitTimeout, long checkUnitTime) {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
 
-        while(true){
+        while (true) {
             Long currentOpsCount = asyncOperation.getCurrentOpsCount();
-            logger.warn("count===="+currentOpsCount);
-            if(currentOpsCount <= 0){
+            logger.warn("count====" + currentOpsCount);
+            if (currentOpsCount <= 0) {
                 return true;
             }
-            if(stopWatch.stop() > waitTimeout){
+            if (stopWatch.stop() > waitTimeout) {
                 return false;
             }
             try {
                 Thread.sleep(checkUnitTime);
-            } catch (InterruptedException e) {
+            }
+            catch (InterruptedException e) {
             }
         }
 

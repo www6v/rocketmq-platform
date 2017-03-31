@@ -1,3 +1,6 @@
+/*
+ * Copyright 2009-2017 Lenovo Software, Inc. All rights reserved.
+ */
 package com.lenovo.arcloud.mq.compute;
 
 import com.alibaba.fastjson.JSONObject;
@@ -7,7 +10,6 @@ import com.lenovo.arcloud.mq.dao.ImageDao;
 import com.lenovo.arcloud.mq.model.ImageObj;
 import com.lenovo.arcloud.mq.util.ConstantUtil;
 import com.lenovo.arcloud.mq.util.FileUtils;
-import lombok.Setter;
 import org.apache.log4j.Logger;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
@@ -42,7 +44,6 @@ public class SaveFeatureConsumer extends DefaultMQPushConsumer {
     @Resource
     private ImageDao hbaseImageDao;
 
-
     public void init() {
         this.setNamesrvAddr(rocketMqConfig.getNamesrvAddr());
         this.setConsumerGroup(rocketMqConfig.getDefaultConsumerGroup());
@@ -50,7 +51,8 @@ public class SaveFeatureConsumer extends DefaultMQPushConsumer {
             this.subscribe(rocketMqConfig.getCalctopic(), rocketMqConfig.getDumpFeature());
             this.registerMessageListener(new SaveFeatureListener());
             this.start();
-        } catch (MQClientException e) {
+        }
+        catch (MQClientException e) {
             e.printStackTrace();
         }
 
@@ -62,15 +64,17 @@ public class SaveFeatureConsumer extends DefaultMQPushConsumer {
 
     class SaveFeatureListener implements MessageListenerConcurrently {
         @Override
-        public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> list, ConsumeConcurrentlyContext consumeConcurrentlyContext) {
+        public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> list,
+            ConsumeConcurrentlyContext consumeConcurrentlyContext) {
             MessageExt messageExt = list.get(0);
             try {
                 String message = new String(messageExt.getBody(), "UTF-8");
                 JSONObject json = JSONObject.parseObject(message);
                 String resultPath = json.getString(ConstantUtil.RESULT_PATH);
                 String execId = json.getString(ConstantUtil.EXECUTION_ID);
-                saveCalResult(resultPath,execId);
-            } catch (UnsupportedEncodingException e) {
+                saveCalResult(resultPath, execId);
+            }
+            catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
 
@@ -78,28 +82,28 @@ public class SaveFeatureConsumer extends DefaultMQPushConsumer {
         }
     }
 
-    private void saveCalResult(String resultPath,String execId) {
+    private void saveCalResult(String resultPath, String execId) {
 
         logger.info("----save image------");
         File imageDir = new File(resultPath + File.separator + "images");
-        if(imageDir.exists() && imageDir.isDirectory()){
+        if (imageDir.exists() && imageDir.isDirectory()) {
             File[] listFiles = imageDir.listFiles();
             Arrays.sort(listFiles, new Comparator<File>() {
                 @Override
                 public int compare(File o1, File o2) {
-                   if(o1.isDirectory() && o2.isFile()){
-                       return -1;
-                   }
-                    if(o2.isDirectory() && o1.isFile()){
+                    if (o1.isDirectory() && o2.isFile()) {
+                        return -1;
+                    }
+                    if (o2.isDirectory() && o1.isFile()) {
                         return 1;
                     }
-                    return  o2.getName().compareTo(o1.getName());
+                    return o2.getName().compareTo(o1.getName());
                 }
             });
             List<ImageObj> imageObjs = Lists.newArrayListWithCapacity(listFiles.length);
-            long i=0;
+            long i = 0;
             for (File imageFile : listFiles) {
-                if(imageFile.isFile()){
+                if (imageFile.isFile()) {
                     ImageObj imageObj = new ImageObj();
                     imageObj.setImageId(i);
                     imageObj.setCreateTime(imageFile.lastModified());
@@ -119,7 +123,6 @@ public class SaveFeatureConsumer extends DefaultMQPushConsumer {
         logger.info("----save match-----");
 
         logger.info("----save sparse-----");
-
 
     }
 }

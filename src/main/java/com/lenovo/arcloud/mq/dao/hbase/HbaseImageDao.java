@@ -1,3 +1,6 @@
+/*
+ * Copyright 2009-2017 Lenovo Software, Inc. All rights reserved.
+ */
 package com.lenovo.arcloud.mq.dao.hbase;
 
 import com.google.common.collect.Lists;
@@ -11,12 +14,13 @@ import com.lenovo.arcloud.mq.util.ConstantUtil;
 import com.lenovo.arcloud.mq.util.FileUtils;
 import com.lenovo.arcloud.mq.util.RowKeyUtils;
 import com.lenovo.arcloud.mq.util.StringUtils;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.io.*;
 import java.net.URL;
 import java.util.List;
 
@@ -36,7 +40,7 @@ public class HbaseImageDao implements ImageDao {
     @Override
     public void insert(ImageObj image) {
         Put put = imageObjToPut(image);
-        hbaseTemplate.put(HbaseTables.IMAGE,put);
+        hbaseTemplate.put(HbaseTables.IMAGE, put);
     }
 
     @Override
@@ -45,7 +49,7 @@ public class HbaseImageDao implements ImageDao {
         for (ImageObj imageObj : imageObjList) {
             puts.add(imageObjToPut(imageObj));
         }
-        hbaseTemplate.put(HbaseTables.IMAGE,puts);
+        hbaseTemplate.put(HbaseTables.IMAGE, puts);
     }
 
     private Put imageObjToPut(ImageObj imageObj) {
@@ -66,14 +70,16 @@ public class HbaseImageDao implements ImageDao {
                 if (imageObj.getPath().indexOf("http:") >= 0) {
                     URL url = new URL(imageObj.getPath());
                     inputStream = url.openStream();
-                } else {
+                }
+                else {
                     inputStream = new FileInputStream(imageObj.getPath());
                 }
                 byte[] bytes = ByteStreams.toByteArray(inputStream);
                 p.addColumn(HbaseTables.IMAGE_MOB, HbaseTables.IMAGE_MOB, bytes);
                 imageObj.setCheckSum(FileUtils.getCRC16(bytes));
                 inputStream.close();
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 throw new HbaseAccessException("image target is >>>" + imageObj.getPath(), e);
             }
 
@@ -86,7 +92,7 @@ public class HbaseImageDao implements ImageDao {
 
     private byte[] getRowKey(ImageObj imageObj) {
         if (imageObj.getExecutionId() != null &&
-                imageObj.getImageId() != null) {
+            imageObj.getImageId() != null) {
             String rowKey = imageObj.getExecutionId() + "-" + imageObj.getImageId();
             return Bytes.toBytes(rowKey);
         }
@@ -94,16 +100,15 @@ public class HbaseImageDao implements ImageDao {
         long prefix = timestamp % ConstantUtil.NUM_BUCKETS;
 
         byte[] bytes = Bytes.toBytes(prefix);
-        final long base_time;
+        final long baseTime;
         if ((timestamp & ConstantUtil.SECOND_MASK) != 0) {
             // drop the ms timestamp to seconds to calculate the base timestamp
-            base_time = ((timestamp / 1000) -
-                    ((timestamp / 1000) % ConstantUtil.MAX_TIMESPAN));
+            baseTime = (timestamp / 1000) -
+                (timestamp / 1000) % ConstantUtil.MAX_TIMESPAN;
         } else {
-            base_time = (timestamp - (timestamp % ConstantUtil.MAX_TIMESPAN));
+            baseTime = timestamp - (timestamp % ConstantUtil.MAX_TIMESPAN);
         }
-        return RowKeyUtils.concatFixedByteAndLong(bytes,bytes.length,base_time);
+        return RowKeyUtils.concatFixedByteAndLong(bytes, bytes.length, baseTime);
     }
-
 
 }

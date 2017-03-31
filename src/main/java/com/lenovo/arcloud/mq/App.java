@@ -1,3 +1,6 @@
+/*
+ * Copyright 2009-2017 Lenovo Software, Inc. All rights reserved.
+ */
 package com.lenovo.arcloud.mq;
 
 import org.springframework.boot.SpringApplication;
@@ -14,7 +17,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @EnableAutoConfiguration
 @SpringBootApplication
 public class App {
-    public static void main(String[] args){
-        SpringApplication.run(App.class,args);
+    public static void main(String[] args) {
+        SpringApplication.run(App.class, args);
     }
 }

@@ -1,6 +1,8 @@
+/*
+ * Copyright 2009-2017 Lenovo Software, Inc. All rights reserved.
+ */
 package com.lenovo.arcloud.mq.hbase;
 
-import lombok.Getter;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Connection;
@@ -19,20 +21,18 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @since 2017/3/29
  *
  */
-public class HbaseAsyncTemplate implements HbaseAsyncOperation{
+public class HbaseAsyncTemplate implements HbaseAsyncOperation {
     private final HTableMultiplexer hTableMultiplexer;
     private final AtomicInteger opsCount = new AtomicInteger();
     private final AtomicInteger opsRejectCount = new AtomicInteger();
 
-
-    public HbaseAsyncTemplate(Configuration config,int perRegionServerBufferQueueSize) throws IOException {
-        this.hTableMultiplexer = new HTableMultiplexer(config,perRegionServerBufferQueueSize);
+    public HbaseAsyncTemplate(Configuration config, int perRegionServerBufferQueueSize) throws IOException {
+        this.hTableMultiplexer = new HTableMultiplexer(config, perRegionServerBufferQueueSize);
     }
 
     public HbaseAsyncTemplate(Connection connection, Configuration config, int perRegionServerBufferQueueSize) {
-        this.hTableMultiplexer = new HTableMultiplexer(connection,config,perRegionServerBufferQueueSize);
+        this.hTableMultiplexer = new HTableMultiplexer(connection, config, perRegionServerBufferQueueSize);
     }
-
 
     @Override
     public boolean isAvailable() {

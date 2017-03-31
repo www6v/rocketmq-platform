@@ -1,3 +1,6 @@
+/*
+ * Copyright 2009-2017 Lenovo Software, Inc. All rights reserved.
+ */
 package com.lenovo.arcloud.mq.util;
 
 import com.google.gson.Gson;
@@ -24,7 +27,7 @@ import java.util.TimerTask;
 public class RequestUtils {
 
     private static Logger logger = Logger.getLogger(RequestUtils.class);
-    private static final Gson gson = new Gson();
+    private static final Gson REQUEST_GSON = new Gson();
     private static final String SESSION_ID = "session.id";
     private static final String URL_SEPERATOR = "/";
 
@@ -46,10 +49,11 @@ public class RequestUtils {
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                     getter.setActive(false);
+                    getter.setActive(false);
                 }
             }, Integer.valueOf(period), Integer.valueOf(period));
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -63,18 +67,19 @@ public class RequestUtils {
                 String response;
                 try {
                     response = Unirest.post(host).header("accept", "application/json").field("action", "login")
-                            .field("username", username).field("password", password).asString().getBody();
-                } catch (UnirestException e) {
-                    logger.error("登录ARCompute出错");
-                    throw new IllegalStateException("登录录ARCompute出错", e);
+                        .field("username", username).field("password", password).asString().getBody();
                 }
-                Map<String, String> result = gson.fromJson(response, new TypeToken<Map<String, String>>() {
-                }.getType());
+                catch (UnirestException e) {
+                    logger.error("login ARCompute failure");
+                    throw new IllegalStateException("login ARCompute failure", e);
+                }
+                Map<String, String> result = REQUEST_GSON.fromJson(response, new TypeToken<Map<String, String>>(){}.getType());
                 String error = result.get("error");
                 if (!StringUtils.isEmpty(error)) {
-                    logger.error("ARCompute用户名或密码错误");
-                    throw new IllegalStateException("ARCompute用户名或密码错误");
-                } else {
+                    logger.error("ARCompute Username or Password Wrong");
+                    throw new IllegalStateException("ARCompute Username or Password Wrong");
+                }
+                else {
                     sessionId = result.get(SESSION_ID);
                 }
                 active = true;
@@ -92,12 +97,12 @@ public class RequestUtils {
         }
     }
 
-    public static HttpRequest get(String uri){
-        return Unirest.get(host + URL_SEPERATOR + uri).queryString(SESSION_ID ,getter.getSessionId());
+    public static HttpRequest get(String uri) {
+        return Unirest.get(host + URL_SEPERATOR + uri).queryString(SESSION_ID, getter.getSessionId());
     }
 
-    public static HttpRequestWithBody post(String uri){
-        return Unirest.post(host + URL_SEPERATOR + uri + "?" +SESSION_ID+"="+getter.getSessionId());
+    public static HttpRequestWithBody post(String uri) {
+        return Unirest.post(host + URL_SEPERATOR + uri + "?" + SESSION_ID + "=" + getter.getSessionId());
     }
 
 }

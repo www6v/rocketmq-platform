@@ -1,3 +1,6 @@
+/*
+ * Copyright 2009-2017 Lenovo Software, Inc. All rights reserved.
+ */
 package com.lenovo.arcloud.mq.controller;
 
 import com.lenovo.arcloud.mq.compute.CommonProducer;
@@ -38,30 +41,28 @@ public class TopicController {
     @Resource
     private RocketMqConfig rocketMqConfig;
 
-    @RequestMapping(value="/downVideo.ar",method={RequestMethod.POST})
+    @RequestMapping(value = "/downVideo.ar", method = {RequestMethod.POST})
     @ResponseBody
-    public Object sendDownVideoMsg(@RequestBody SendTopicMsgRequest sendTopicMsgRequest){
+    public Object sendDownVideoMsg(@RequestBody SendTopicMsgRequest sendTopicMsgRequest) {
         sendTopicMsgRequest.setTopic(rocketMqConfig.getCalctopic());
         sendTopicMsgRequest.setTag(rocketMqConfig.getDownVideo());
         return downVideoProducer.sendTopicMessageRequest(sendTopicMsgRequest);
     }
 
-    @RequestMapping(value="/processFeature.ar",method={RequestMethod.POST})
+    @RequestMapping(value = "/processFeature.ar", method = {RequestMethod.POST})
     @ResponseBody
-    public Object sendProcessFeatureMsg(SendTopicMsgRequest sendTopicMsgRequest){
+    public Object sendProcessFeatureMsg(SendTopicMsgRequest sendTopicMsgRequest) {
         sendTopicMsgRequest.setTopic(rocketMqConfig.getCalctopic());
         sendTopicMsgRequest.setTag(rocketMqConfig.getProcessFeature());
         return processFeatureProducer.sendTopicMessageRequest(sendTopicMsgRequest);
     }
 
-    @RequestMapping(value="/dumpFeature.ar",method={RequestMethod.POST})
+    @RequestMapping(value = "/dumpFeature.ar", method = {RequestMethod.POST})
     @ResponseBody
-    public Object sendDumpFeatureMsg(SendTopicMsgRequest sendTopicMsgRequest){
+    public Object sendDumpFeatureMsg(SendTopicMsgRequest sendTopicMsgRequest) {
         sendTopicMsgRequest.setTopic(rocketMqConfig.getCalctopic());
         sendTopicMsgRequest.setTag(rocketMqConfig.getDumpFeature());
         return dumpFeatureProducer.sendTopicMessageRequest(sendTopicMsgRequest);
     }
-
-
 
 }

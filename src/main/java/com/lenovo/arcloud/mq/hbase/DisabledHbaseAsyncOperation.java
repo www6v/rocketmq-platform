@@ -1,3 +1,6 @@
+/*
+ * Copyright 2009-2017 Lenovo Software, Inc. All rights reserved.
+ */
 package com.lenovo.arcloud.mq.hbase;
 
 import org.apache.hadoop.hbase.TableName;
@@ -14,7 +17,7 @@ import java.util.Map;
  * @since 2017/3/29
  *
  */
-public class DisabledHbaseAsyncOperation implements HbaseAsyncOperation{
+public class DisabledHbaseAsyncOperation implements HbaseAsyncOperation {
 
     static final DisabledHbaseAsyncOperation INSTANCE = new DisabledHbaseAsyncOperation();
 

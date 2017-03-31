@@ -1,3 +1,6 @@
+/*
+ * Copyright 2009-2017 Lenovo Software, Inc. All rights reserved.
+ */
 package com.lenovo.arcloud.mq.model;
 
 import org.json.JSONArray;
@@ -40,55 +43,56 @@ public class RECExecutionSince {
         }
          */
 
-    public void setJsonObject(JSONObject jsonObject){
+    public void setJsonObject(JSONObject jsonObject) {
         this.jsonObject = jsonObject;
     }
-    public JSONObject getJsonObject(){
+
+    public JSONObject getJsonObject() {
         return jsonObject;
     }
 
-    public JSONArray getNodes(){
-        if(null == jsonObject){
+    public JSONArray getNodes() {
+        if (null == jsonObject) {
             return null;
         }
         JSONArray jsonArray = jsonObject.getJSONArray("nodes");
         return jsonArray;
     }
 
-    public long getStartTime(){
-        if(null == jsonObject){
+    public long getStartTime() {
+        if (null == jsonObject) {
             return 0L;
         }
         long timeMls = jsonObject.getLong("startTime");
         return timeMls;
     }
 
-    public long getEndTime(){
-        if(null == jsonObject){
+    public long getEndTime() {
+        if (null == jsonObject) {
             return 0L;
         }
         long timeMls = jsonObject.getLong("endTime");
         return timeMls;
     }
 
-    public long getUpdateTime(){
-        if(null == jsonObject){
+    public long getUpdateTime() {
+        if (null == jsonObject) {
             return 0L;
         }
         long timeMls = jsonObject.getLong("updateTime");
         return timeMls;
     }
 
-    public String getId(){
-        if(null == jsonObject){
+    public String getId() {
+        if (null == jsonObject) {
             return null;
         }
         String id = jsonObject.getString("id");
         return id;
     }
 
-    public long getAttempt(){
-        if(null == jsonObject){
+    public long getAttempt() {
+        if (null == jsonObject) {
             return 0L;
         }
         long attempt = jsonObject.getLong("attempt");
@@ -96,10 +100,10 @@ public class RECExecutionSince {
     }
 
     /**
-     * 返回流的名称
+     * return flow name
      */
-    public String getFlow(){
-        if(null == jsonObject){
+    public String getFlow() {
+        if (null == jsonObject) {
             return null;
         }
 
@@ -107,8 +111,8 @@ public class RECExecutionSince {
         return flowName;
     }
 
-    public String getStatus(){
-        if(null == jsonObject){
+    public String getStatus() {
+        if (null == jsonObject) {
             return null;
         }
         String status = jsonObject.getString("status");
