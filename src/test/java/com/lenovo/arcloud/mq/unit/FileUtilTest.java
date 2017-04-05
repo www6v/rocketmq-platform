@@ -17,7 +17,7 @@ public class FileUtilTest {
 
     @Test
     public void testFileCRC(){
-        String filePath = "d:/hbase-server-1.2.4.jar";
+        String filePath = "/usr/local/apache-maven-3.3.9/lib/wagon-file-2.10.jar";
         int crc16 = FileUtils.getCRC16ForFile(filePath);
     }
 
