@@ -17,6 +17,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @EnableAutoConfiguration
 @SpringBootApplication
 public class App {
+    private App(){}
+
+    /**
+     * Bootstrap Entry
+     * @param args
+     */
     public static void main(String[] args) {
         SpringApplication.run(App.class, args);
     }

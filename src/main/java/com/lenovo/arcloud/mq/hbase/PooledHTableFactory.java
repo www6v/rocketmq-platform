@@ -108,7 +108,7 @@ public class PooledHTableFactory implements TableFactory, DisposableBean {
             this.executorService.shutdown();
             boolean shutdown = false;
             try {
-                shutdown = executorService.awaitTermination(1000 * 5, TimeUnit.MILLISECONDS);
+                shutdown = executorService.awaitTermination(5000, TimeUnit.MILLISECONDS);
                 if (!shutdown) {
                     List<Runnable> discardTask = this.executorService.shutdownNow();
                     logger.warn("discard task size:{}", discardTask.size());

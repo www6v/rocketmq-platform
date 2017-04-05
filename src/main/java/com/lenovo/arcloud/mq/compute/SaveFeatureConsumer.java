@@ -53,7 +53,7 @@ public class SaveFeatureConsumer extends DefaultMQPushConsumer {
             this.start();
         }
         catch (MQClientException e) {
-            e.printStackTrace();
+            logger.error("init SaveFeature Consumer failure>>>"+e.getMessage());
         }
 
     }
@@ -75,54 +75,56 @@ public class SaveFeatureConsumer extends DefaultMQPushConsumer {
                 saveCalResult(resultPath, execId);
             }
             catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
+                logger.error("save feature failure>>>"+e.getMessage());
             }
 
             return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
         }
-    }
 
-    private void saveCalResult(String resultPath, String execId) {
+        private void saveCalResult(String resultPath, String execId) {
 
-        logger.info("----save image------");
-        File imageDir = new File(resultPath + File.separator + "images");
-        if (imageDir.exists() && imageDir.isDirectory()) {
-            File[] listFiles = imageDir.listFiles();
-            Arrays.sort(listFiles, new Comparator<File>() {
-                @Override
-                public int compare(File o1, File o2) {
-                    if (o1.isDirectory() && o2.isFile()) {
-                        return -1;
+            logger.info("----save image------");
+            File imageDir = new File(resultPath + File.separator + "images");
+            if (imageDir.exists() && imageDir.isDirectory()) {
+                File[] listFiles = imageDir.listFiles();
+                Arrays.sort(listFiles, new Comparator<File>() {
+                    @Override
+                    public int compare(File o1, File o2) {
+                        if (o1.isDirectory() && o2.isFile()) {
+                            return -1;
+                        }
+                        if (o2.isDirectory() && o1.isFile()) {
+                            return 1;
+                        }
+                        return o2.getName().compareTo(o1.getName());
                     }
-                    if (o2.isDirectory() && o1.isFile()) {
-                        return 1;
+                });
+                List<ImageObj> imageObjs = Lists.newArrayListWithCapacity(listFiles.length);
+                long i = 0;
+                for (File imageFile : listFiles) {
+                    if (imageFile.isFile()) {
+                        ImageObj imageObj = new ImageObj();
+                        imageObj.setImageId(i);
+                        imageObj.setCreateTime(imageFile.lastModified());
+                        imageObj.setExt(FileUtils.getFileExtension(imageFile.getPath()));
+                        imageObj.setExecutionId(Long.valueOf(execId));
+                        imageObj.setPath(imageFile.getAbsolutePath());
+                        imageObj.setName(imageFile.getName());
+                        imageObjs.add(imageObj);
+                        i++;
                     }
-                    return o2.getName().compareTo(o1.getName());
                 }
-            });
-            List<ImageObj> imageObjs = Lists.newArrayListWithCapacity(listFiles.length);
-            long i = 0;
-            for (File imageFile : listFiles) {
-                if (imageFile.isFile()) {
-                    ImageObj imageObj = new ImageObj();
-                    imageObj.setImageId(i);
-                    imageObj.setCreateTime(imageFile.lastModified());
-                    imageObj.setExt(FileUtils.getFileExtension(imageFile.getPath()));
-                    imageObj.setExecutionId(Long.valueOf(execId));
-                    imageObj.setPath(imageFile.getAbsolutePath());
-                    imageObj.setName(imageFile.getName());
-                    imageObjs.add(imageObj);
-                    i++;
-                }
+                hbaseImageDao.insert(imageObjs);
             }
-            hbaseImageDao.insert(imageObjs);
+
+            logger.info("----save feature-----");
+
+            logger.info("----save match-----");
+
+            logger.info("----save sparse-----");
+
         }
-
-        logger.info("----save feature-----");
-
-        logger.info("----save match-----");
-
-        logger.info("----save sparse-----");
-
     }
+
+
 }

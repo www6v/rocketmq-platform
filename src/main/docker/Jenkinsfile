@@ -11,12 +11,14 @@ node {
 
       stage 'Junits & Integrate &Coverage'
       sh 'mvn test verify'
-      stage 'call sonar'
+
+      stage 'sonarque check'
       def scannerHome = tool "sonarqube";
 	  sh ("${scannerHome}/bin/sonar-scanner"
 	  	+ " -Dsonar.host.url=http://10.4.65.228:9000"
 	  	+ " -Dsonar.verbose=true"
 	  	+ " -Dsonar.projectKey=rocketmq-compute"
+	  	+ " -Dsonar.projectName=rocketmq-compute"
 	  	+ " -Dsonar.projectVersion=1.0"
 	  	+ " -Dsonar.login=admin"
 	  	+ " -Dsonar.password=admin"

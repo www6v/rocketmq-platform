@@ -56,7 +56,7 @@ public class DownVideoConsumer extends DefaultMQPushConsumer {
             this.start();
         }
         catch (MQClientException e) {
-            e.printStackTrace();
+            logger.error("init DownVideo Consumer failure>>>"+e.getMessage());
         }
 
     }
@@ -78,24 +78,26 @@ public class DownVideoConsumer extends DefaultMQPushConsumer {
                 download(videoUrl);
             }
             catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
+                logger.error("download video failure>>>"+e.getMessage());
             }
 
             return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
         }
+
+        private void download(String videoUrl) {
+            FlowObj downloadObj = new FlowObj();
+            downloadObj.setProjectName(arComputeConfig.getDownloadVideoPrj());
+            downloadObj.setFlowName(arComputeConfig.getDownloadVideoFlow());
+
+            Map<String, String> flowProps = Maps.newHashMapWithExpectedSize(1);
+            flowProps.put(ConstantUtil.VIDEO_URL, videoUrl);
+            Object o = exeFlowService.ExecuteFlow(downloadObj, flowProps);
+
+            logger.info(o.toString());
+
+        }
     }
 
-    private void download(String videoUrl) {
-        FlowObj downloadObj = new FlowObj();
-        downloadObj.setProjectName(arComputeConfig.getDownloadVideoPrj());
-        downloadObj.setFlowName(arComputeConfig.getDownloadVideoFlow());
 
-        Map<String, String> flowProps = Maps.newHashMapWithExpectedSize(1);
-        flowProps.put(ConstantUtil.VIDEO_URL, videoUrl);
-        Object o = exeFlowService.ExecuteFlow(downloadObj, flowProps);
-
-        logger.info(o.toString());
-
-    }
 
 }

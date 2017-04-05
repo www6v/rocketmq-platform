@@ -56,7 +56,7 @@ public class ProcessFeatureConsumer extends DefaultMQPushConsumer {
             this.start();
         }
         catch (MQClientException e) {
-            e.printStackTrace();
+            logger.error("init ProcessFeature Consumer failure>>>"+e.getMessage());
         }
 
     }
@@ -78,23 +78,24 @@ public class ProcessFeatureConsumer extends DefaultMQPushConsumer {
                 processFeature(videoPath);
             }
             catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
+                logger.error("process feature failure>>>"+e.getMessage());
             }
 
             return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
         }
+        private void processFeature(String videoPath) {
+            FlowObj downloadObj = new FlowObj();
+            downloadObj.setProjectName(arComputeConfig.getExtractFeaturePrj());
+            downloadObj.setFlowName(arComputeConfig.getExtractFeatureFlow());
+
+            Map<String, String> flowProps = Maps.newHashMapWithExpectedSize(1);
+            flowProps.put(ConstantUtil.VIDEO_PATH, videoPath);
+            Object o = exeFlowService.ExecuteFlow(downloadObj, flowProps);
+
+            logger.info(o.toString());
+
+        }
     }
 
-    private void processFeature(String videoPath) {
-        FlowObj downloadObj = new FlowObj();
-        downloadObj.setProjectName(arComputeConfig.getExtractFeaturePrj());
-        downloadObj.setFlowName(arComputeConfig.getExtractFeatureFlow());
 
-        Map<String, String> flowProps = Maps.newHashMapWithExpectedSize(1);
-        flowProps.put(ConstantUtil.VIDEO_PATH, videoPath);
-        Object o = exeFlowService.ExecuteFlow(downloadObj, flowProps);
-
-        logger.info(o.toString());
-
-    }
 }

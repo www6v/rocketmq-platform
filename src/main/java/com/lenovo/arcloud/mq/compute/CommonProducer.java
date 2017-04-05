@@ -6,6 +6,7 @@ package com.lenovo.arcloud.mq.compute;
 import com.google.common.base.Throwables;
 import com.lenovo.arcloud.mq.config.RocketMqConfig;
 import com.lenovo.arcloud.mq.model.SendTopicMsgRequest;
+import org.apache.log4j.Logger;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.client.producer.SendResult;
@@ -25,10 +26,14 @@ import javax.annotation.Resource;
  */
 @Service
 public class CommonProducer extends DefaultMQProducer {
+    private static Logger logger = Logger.getLogger(CommonProducer.class);
 
     @Resource
     private RocketMqConfig rocketMqConfig;
 
+    /**
+     * init producer
+     */
     @PostConstruct
     public void init() {
         try {
@@ -37,15 +42,23 @@ public class CommonProducer extends DefaultMQProducer {
             this.start();
         }
         catch (MQClientException e) {
-            e.printStackTrace();
+            logger.error("init producer failure>>>"+e.getMessage());
         }
     }
 
+    /**
+     * close producer
+     */
     @PreDestroy
     public void close() {
         this.shutdown();
     }
 
+    /**
+     * send message of topic
+     * @param request
+     * @return
+     */
     public SendResult sendTopicMessageRequest(SendTopicMsgRequest request) {
         Message msg = new Message(request.getTopic(),
             request.getTag(),
