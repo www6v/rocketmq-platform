@@ -17,8 +17,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @EnableAutoConfiguration
 @SpringBootApplication
 public class App {
-    private App(){}
-
     /**
      * Bootstrap Entry
      * @param args
