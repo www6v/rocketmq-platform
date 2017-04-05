@@ -1,0 +1,10 @@
+version: '2'
+services:
+   rocketmq-compute:
+      image: 10.4.65.226/deeplearning/rocketmq-compute:VERSION
+      volumes:
+           - /home/admin/hdp-docker/centos/merge/pipeline/workspace:/usr/local/workspace
+      ports:
+           - '8103:8080'
+      networks:
+           - hdpOverlay

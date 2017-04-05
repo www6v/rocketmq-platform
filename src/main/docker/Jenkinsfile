@@ -1,0 +1,51 @@
+node {
+     stage 'initialize enviroment'
+     //test sonar
+     //test docker registry
+     sh 'sudo docker login --username=admin --password=Harbor12345 --email=admin@example.com  10.4.65.226'
+     //test rancher
+
+     stage 'checkout code'
+     git([url: 'git@10.4.65.64:deeplearning/rocketmq-compute.git', branch: 'master'])
+     echo 'checkout success'
+
+      stage 'Junits & Integrate &Coverage'
+      sh 'mvn test verify'
+      stage 'call sonar'
+      def scannerHome = tool "sonarqube";
+	  sh ("${scannerHome}/bin/sonar-scanner"
+	  	+ " -Dsonar.host.url=http://10.4.65.228:9000"
+	  	+ " -Dsonar.verbose=true"
+	  	+ " -Dsonar.projectKey=rocketmq-compute"
+	  	+ " -Dsonar.projectVersion=1.0"
+	  	+ " -Dsonar.login=admin"
+	  	+ " -Dsonar.password=admin"
+	  	+ " -Dsonar.sources=."
+	  )
+
+      stage 'approve'
+      try {
+      	input message: 'Have you checked the test report,Confirm to continue ?', ok: 'Yes'
+      } catch (error) {
+          echo 'No package'
+      }
+
+      stage 'package code'
+      sh 'mvn clean package -Dmaven.test.skip=true'
+
+      stage 'build docker'
+      sh 'git rev-parse --short HEAD > GIT_COMMIT'
+      short_commit = readFile('GIT_COMMIT').trim()
+      sh 'rm GIT_COMMIT'
+      sh 'docker build -t 10.4.65.226/deeplearning/rocketmq-compute:${short_commit} .'
+
+      stage 'push docker'
+      sh 'docker push 10.4.65.226/deeplearning/rocketmq-compute:${short_commit}'
+
+      stage 'Deployment-Beta'
+      sh 'sed -i "s/VERSION/${short_commit}/g" deployment/sandbox/docker-compose.yml'
+      sh 'rancher-compose -f src/test/integration/docker-compose.yml -r src/test/integration/rancher-compose.yml --url http://10.240.212.164:8101 --access-key 67EC9C0C312426ECEBFC --secret-key X8ig8gSX4ue1UZJM58iV4g3PscFH8waxNF7zA6FX --verbose up -d --force-upgrade --pull --confirm-upgrade rocketmq-compute'
+
+      stage 'Deployment-Production'
+      echo 'No Production Enviroment'
+}

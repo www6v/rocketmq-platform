@@ -3,7 +3,6 @@
  */
 package com.lenovo.arcloud.mq.integration;
 
-import com.lenovo.arcloud.mq.util.StringUtils;
 import org.junit.Test;
 
 /***
@@ -16,6 +15,6 @@ import org.junit.Test;
 public class VideoClientIT {
     @Test
     public void testSendMsg(){
-        StringUtils.isEmpty("");
+        System.out.print("video");
     }
 }
