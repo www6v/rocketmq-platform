@@ -59,4 +59,8 @@ public class FileUtils {
         return filePath.substring(filePath.lastIndexOf(".") + 1, filePath.length());
     }
 
+    public static String getFileNameByUrl(String url){
+        return url.substring(url.lastIndexOf("/") + 1,url.length());
+    }
+
 }

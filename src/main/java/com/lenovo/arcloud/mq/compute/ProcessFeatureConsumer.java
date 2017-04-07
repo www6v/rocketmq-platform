@@ -26,6 +26,7 @@ import javax.annotation.Resource;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
+import org.springframework.util.StringUtils;
 
 /***
  * Description
@@ -77,8 +78,7 @@ public class ProcessFeatureConsumer extends DefaultMQPushConsumer {
             try {
                 String message = new String(messageExt.getBody(), "UTF-8");
                 JSONObject json = JSONObject.parseObject(message);
-                String videoPath = json.getString(ConstantUtil.VIDEO_PATH);
-                processFeature(videoPath);
+                processFeature(json);
             }
             catch (UnsupportedEncodingException e) {
                 logger.error("process feature failure>>>"+e.getMessage());
@@ -86,15 +86,27 @@ public class ProcessFeatureConsumer extends DefaultMQPushConsumer {
 
             return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
         }
-        private void processFeature(String videoPath) {
+        private void processFeature(JSONObject json) {
+            String prjName = json.getString(ConstantUtil.ALGORITHM_NAME);
+            String flowName = json.getString(ConstantUtil.FLOW_NAME);
             FlowObj downloadObj = new FlowObj();
-            downloadObj.setProjectName(arComputeConfig.getExtractFeaturePrj());
-            downloadObj.setFlowName(arComputeConfig.getExtractFeatureFlow());
 
-            Map<String, String> flowProps = Maps.newHashMapWithExpectedSize(1);
-            flowProps.put(ConstantUtil.VIDEO_PATH, videoPath);
+            if(!StringUtils.isEmpty(prjName) && !StringUtils.isEmpty(flowName)){
+                downloadObj.setProjectName(prjName);
+                downloadObj.setFlowName(flowName);
+            }else {
+                downloadObj.setProjectName(arComputeConfig.getExtractFeaturePrj());
+                downloadObj.setFlowName(arComputeConfig.getExtractFeatureFlow());
+            }
+
+            Map<String, String> flowProps = Maps.newHashMapWithExpectedSize(json.keySet().size());
+            for (String key : json.keySet()) {
+                if(flowProps.containsKey(key)){
+                    continue;
+                }
+                flowProps.put(key,json.getString(key));
+            }
             Object o = exeFlowService.ExecuteFlow(downloadObj, flowProps);
-
             logger.info(o.toString());
 
         }

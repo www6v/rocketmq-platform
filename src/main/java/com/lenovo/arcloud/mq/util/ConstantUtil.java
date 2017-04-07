@@ -13,7 +13,15 @@ package com.lenovo.arcloud.mq.util;
 public class ConstantUtil {
     public static String VIDEO_URL = "video.url";
 
+    public static String VIDEO_NAME = "video.name";
+
     public static String VIDEO_PATH = "video.path";
+
+    public static String RECORD_ID = "record.id";
+
+    public static String ALGORITHM_NAME="alg.name";
+
+    public static String FLOW_NAME="flow.name";
 
     public static String RESULT_PATH = "result.path";
 

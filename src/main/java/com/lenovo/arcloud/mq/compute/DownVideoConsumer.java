@@ -10,6 +10,7 @@ import com.lenovo.arcloud.mq.config.RocketMqConfig;
 import com.lenovo.arcloud.mq.model.FlowObj;
 import com.lenovo.arcloud.mq.service.ExeFlowService;
 import com.lenovo.arcloud.mq.util.ConstantUtil;
+import com.lenovo.arcloud.mq.util.FileUtils;
 import javax.annotation.PreDestroy;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
@@ -77,8 +78,7 @@ public class DownVideoConsumer extends DefaultMQPushConsumer {
             try {
                 String message = new String(messageExt.getBody(), "UTF-8");
                 JSONObject json = JSONObject.parseObject(message);
-                String videoUrl = json.getString(ConstantUtil.VIDEO_URL);
-                download(videoUrl);
+                download(json);
             }
             catch (UnsupportedEncodingException e) {
                 logger.error("download video failure>>>"+e.getMessage());
@@ -87,13 +87,21 @@ public class DownVideoConsumer extends DefaultMQPushConsumer {
             return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
         }
 
-        private void download(String videoUrl) {
+        private void download(JSONObject json) {
             FlowObj downloadObj = new FlowObj();
             downloadObj.setProjectName(arComputeConfig.getDownloadVideoPrj());
             downloadObj.setFlowName(arComputeConfig.getDownloadVideoFlow());
 
             Map<String, String> flowProps = Maps.newHashMapWithExpectedSize(1);
+            String videoUrl = json.getString(ConstantUtil.VIDEO_URL);
             flowProps.put(ConstantUtil.VIDEO_URL, videoUrl);
+            flowProps.put(ConstantUtil.VIDEO_NAME, FileUtils.getFileNameByUrl(videoUrl));
+            for (String key : json.keySet()) {
+                if(flowProps.containsKey(key)){
+                    continue;
+                }
+                flowProps.put(key,json.getString(key));
+            }
             Object o = exeFlowService.ExecuteFlow(downloadObj, flowProps);
 
             logger.info(o.toString());
