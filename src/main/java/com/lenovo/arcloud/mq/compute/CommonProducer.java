@@ -6,11 +6,12 @@ package com.lenovo.arcloud.mq.compute;
 import com.google.common.base.Throwables;
 import com.lenovo.arcloud.mq.config.RocketMqConfig;
 import com.lenovo.arcloud.mq.model.SendTopicMsgRequest;
-import org.apache.log4j.Logger;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.common.message.Message;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -26,7 +27,7 @@ import javax.annotation.Resource;
  */
 @Service
 public class CommonProducer extends DefaultMQProducer {
-    private static Logger logger = Logger.getLogger(CommonProducer.class);
+    private static Logger logger = LoggerFactory.getLogger(CommonProducer.class);
 
     @Resource
     private RocketMqConfig rocketMqConfig;

@@ -9,13 +9,14 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.HttpRequest;
 import com.mashape.unirest.request.HttpRequestWithBody;
-import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /***
  * Description
@@ -26,7 +27,7 @@ import java.util.TimerTask;
  */
 public class RequestUtils {
 
-    private static Logger logger = Logger.getLogger(RequestUtils.class);
+    private static Logger logger = LoggerFactory.getLogger(RequestUtils.class);
     private static final Gson REQUEST_GSON = new Gson();
     private static final String SESSION_ID = "session.id";
     private static final String URL_SEPERATOR = "/";

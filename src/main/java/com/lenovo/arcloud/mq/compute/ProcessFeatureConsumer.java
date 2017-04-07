@@ -10,13 +10,14 @@ import com.lenovo.arcloud.mq.config.RocketMqConfig;
 import com.lenovo.arcloud.mq.model.FlowObj;
 import com.lenovo.arcloud.mq.service.ExeFlowService;
 import com.lenovo.arcloud.mq.util.ConstantUtil;
-import org.apache.log4j.Logger;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.common.message.MessageExt;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -35,7 +36,7 @@ import java.util.Map;
  */
 @Service
 public class ProcessFeatureConsumer extends DefaultMQPushConsumer {
-    private static Logger logger = Logger.getLogger(ProcessFeatureConsumer.class);
+    private static Logger logger = LoggerFactory.getLogger(ProcessFeatureConsumer.class);
 
     @Resource
     private RocketMqConfig rocketMqConfig;
@@ -48,6 +49,7 @@ public class ProcessFeatureConsumer extends DefaultMQPushConsumer {
 
     @PostConstruct
     public void init() {
+        logger.info("init Process feature consumer");
         this.setNamesrvAddr(rocketMqConfig.getNamesrvAddr());
         this.setConsumerGroup(rocketMqConfig.getDefaultConsumerGroup());
         try {
@@ -71,6 +73,7 @@ public class ProcessFeatureConsumer extends DefaultMQPushConsumer {
         public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> list,
             ConsumeConcurrentlyContext consumeConcurrentlyContext) {
             MessageExt messageExt = list.get(0);
+            logger.info("ProcessFeature consume>>>"+messageExt.toString());
             try {
                 String message = new String(messageExt.getBody(), "UTF-8");
                 JSONObject json = JSONObject.parseObject(message);

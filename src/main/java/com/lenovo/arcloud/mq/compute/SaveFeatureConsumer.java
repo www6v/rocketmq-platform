@@ -10,13 +10,14 @@ import com.lenovo.arcloud.mq.dao.ImageDao;
 import com.lenovo.arcloud.mq.model.ImageObj;
 import com.lenovo.arcloud.mq.util.ConstantUtil;
 import com.lenovo.arcloud.mq.util.FileUtils;
-import org.apache.log4j.Logger;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.common.message.MessageExt;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -36,7 +37,7 @@ import java.util.List;
 
 @Service
 public class SaveFeatureConsumer extends DefaultMQPushConsumer {
-    private static Logger logger = Logger.getLogger(SaveFeatureConsumer.class);
+    private static Logger logger = LoggerFactory.getLogger(SaveFeatureConsumer.class);
 
     @Resource
     private RocketMqConfig rocketMqConfig;
@@ -45,6 +46,7 @@ public class SaveFeatureConsumer extends DefaultMQPushConsumer {
     private ImageDao hbaseImageDao;
 
     public void init() {
+        logger.info("init save feature consumer");
         this.setNamesrvAddr(rocketMqConfig.getNamesrvAddr());
         this.setConsumerGroup(rocketMqConfig.getDefaultConsumerGroup());
         try {
@@ -67,6 +69,7 @@ public class SaveFeatureConsumer extends DefaultMQPushConsumer {
         public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> list,
             ConsumeConcurrentlyContext consumeConcurrentlyContext) {
             MessageExt messageExt = list.get(0);
+            logger.info("Save Feature consume>>>"+messageExt.toString());
             try {
                 String message = new String(messageExt.getBody(), "UTF-8");
                 JSONObject json = JSONObject.parseObject(message);

@@ -12,8 +12,9 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.HttpRequest;
-import org.apache.log4j.Logger;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -28,7 +29,7 @@ import java.util.Map;
 
 @Service
 public class ExeFlowServiceImpl implements ExeFlowService {
-    private static Logger logger = Logger.getLogger(ExeFlowService.class);
+    private static Logger logger = LoggerFactory.getLogger(ExeFlowService.class);
     private HttpResponse<JsonNode> response;
 
     public Object Fetchflows(String projectName) {
