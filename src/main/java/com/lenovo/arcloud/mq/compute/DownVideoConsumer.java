@@ -51,7 +51,7 @@ public class DownVideoConsumer extends DefaultMQPushConsumer {
     public void init() {
         logger.info("init DownVideo Consumer");
         this.setNamesrvAddr(rocketMqConfig.getNamesrvAddr());
-        this.setConsumerGroup(rocketMqConfig.getDefaultConsumerGroup());
+        this.setConsumerGroup(rocketMqConfig.getDownVideoConsumerGroup());
         try {
             this.subscribe(rocketMqConfig.getCalctopic(), rocketMqConfig.getDownVideo());
             this.registerMessageListener(new DownVideoListener());

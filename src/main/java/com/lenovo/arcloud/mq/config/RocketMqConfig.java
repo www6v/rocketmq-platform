@@ -28,6 +28,15 @@ public class RocketMqConfig {
     private String defaultConsumerGroup;
 
     @Setter @Getter
+    private String downVideoConsumerGroup;
+
+    @Setter @Getter
+    private String saveFeatureConsumerGroup;
+
+    @Setter @Getter
+    private String processFeatureConsumerGroup;
+
+    @Setter @Getter
     private String calctopic;
 
     @Setter @Getter

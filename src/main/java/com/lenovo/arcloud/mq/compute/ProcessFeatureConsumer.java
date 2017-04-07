@@ -51,7 +51,7 @@ public class ProcessFeatureConsumer extends DefaultMQPushConsumer {
     public void init() {
         logger.info("init Process feature consumer");
         this.setNamesrvAddr(rocketMqConfig.getNamesrvAddr());
-        this.setConsumerGroup(rocketMqConfig.getDefaultConsumerGroup());
+        this.setConsumerGroup(rocketMqConfig.getProcessFeatureConsumerGroup());
         try {
             this.subscribe(rocketMqConfig.getCalctopic(), rocketMqConfig.getProcessFeature());
             this.registerMessageListener(new ProcessFeatureListener());

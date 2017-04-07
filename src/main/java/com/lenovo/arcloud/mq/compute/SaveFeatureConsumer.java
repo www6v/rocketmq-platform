@@ -10,6 +10,8 @@ import com.lenovo.arcloud.mq.dao.ImageDao;
 import com.lenovo.arcloud.mq.model.ImageObj;
 import com.lenovo.arcloud.mq.util.ConstantUtil;
 import com.lenovo.arcloud.mq.util.FileUtils;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
@@ -45,10 +47,11 @@ public class SaveFeatureConsumer extends DefaultMQPushConsumer {
     @Resource
     private ImageDao hbaseImageDao;
 
+    @PostConstruct
     public void init() {
         logger.info("init save feature consumer");
         this.setNamesrvAddr(rocketMqConfig.getNamesrvAddr());
-        this.setConsumerGroup(rocketMqConfig.getDefaultConsumerGroup());
+        this.setConsumerGroup(rocketMqConfig.getSaveFeatureConsumerGroup());
         try {
             this.subscribe(rocketMqConfig.getCalctopic(), rocketMqConfig.getDumpFeature());
             this.registerMessageListener(new SaveFeatureListener());
@@ -60,6 +63,7 @@ public class SaveFeatureConsumer extends DefaultMQPushConsumer {
 
     }
 
+    @PreDestroy
     public void close() {
         this.shutdown();
     }
