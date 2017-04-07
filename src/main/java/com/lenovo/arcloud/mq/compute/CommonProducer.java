@@ -60,7 +60,7 @@ public class CommonProducer extends DefaultMQProducer {
      * @return
      */
     public SendResult sendTopicMessageRequest(SendTopicMsgRequest request) {
-        logger.info("start send download video message");
+        logger.info("start send download video message3");
         Message msg = new Message(request.getTopic(),
             request.getTag(),
             request.getMessageBody().getBytes()
