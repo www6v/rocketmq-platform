@@ -3,7 +3,6 @@
  */
 package com.lenovo.arcloud.mq.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.lenovo.arcloud.mq.compute.CommonProducer;
 import com.lenovo.arcloud.mq.config.RocketMqConfig;
 import com.lenovo.arcloud.mq.model.SendTopicMsgRequest;
