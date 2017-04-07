@@ -41,7 +41,7 @@ public class RequestUtils {
     static {
         Properties props = new Properties();
         try {
-            props.load(RequestUtils.class.getClassLoader().getResourceAsStream("arCompute.properties"));
+            props.load(RequestUtils.class.getClassLoader().getResourceAsStream("application.properties"));
             host = props.getProperty("arCompute.address");
             username = props.getProperty("arCompute.user");
             password = props.getProperty("arCompute.password");

@@ -3,6 +3,7 @@
  */
 package com.lenovo.arcloud.mq.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.lenovo.arcloud.mq.compute.CommonProducer;
 import com.lenovo.arcloud.mq.config.RocketMqConfig;
 import com.lenovo.arcloud.mq.model.SendTopicMsgRequest;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -51,7 +53,7 @@ public class TopicController {
 
     @RequestMapping(value = "/processFeature.ar", method = {RequestMethod.POST})
     @ResponseBody
-    public Object sendProcessFeatureMsg(SendTopicMsgRequest sendTopicMsgRequest) {
+    public Object sendProcessFeatureMsg(@RequestBody SendTopicMsgRequest sendTopicMsgRequest) {
         sendTopicMsgRequest.setTopic(rocketMqConfig.getCalctopic());
         sendTopicMsgRequest.setTag(rocketMqConfig.getProcessFeature());
         return processFeatureProducer.sendTopicMessageRequest(sendTopicMsgRequest);
@@ -59,10 +61,32 @@ public class TopicController {
 
     @RequestMapping(value = "/dumpFeature.ar", method = {RequestMethod.POST})
     @ResponseBody
-    public Object sendDumpFeatureMsg(SendTopicMsgRequest sendTopicMsgRequest) {
+    public Object sendDumpFeatureMsg(@RequestBody SendTopicMsgRequest sendTopicMsgRequest) {
         sendTopicMsgRequest.setTopic(rocketMqConfig.getCalctopic());
         sendTopicMsgRequest.setTag(rocketMqConfig.getDumpFeature());
         return dumpFeatureProducer.sendTopicMessageRequest(sendTopicMsgRequest);
     }
 
+    @RequestMapping(value = "/test.ar", method = {RequestMethod.GET})
+    @ResponseBody
+    public Object test(@RequestParam String topic) {
+        return "{topic:"+topic+"}";
+    }
+
+    @RequestMapping(value = "/test1.ar", method = {RequestMethod.GET})
+    @ResponseBody
+    public Object test1() {
+        return "hello world";
+    }
+
+    @RequestMapping(value = "/test2.ar", method = {RequestMethod.POST})
+    @ResponseBody
+    public Object test2() {
+        return "hello world";
+    }
+    @RequestMapping(value = "/test3.ar", method = {RequestMethod.POST})
+    @ResponseBody
+    public Object test3(SendTopicMsgRequest sendTopicMsgRequest) {
+        return sendTopicMsgRequest;
+    }
 }

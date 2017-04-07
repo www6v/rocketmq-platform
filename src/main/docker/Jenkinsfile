@@ -1,5 +1,7 @@
 node {
      stage 'initialize enviroment'
+     //clear workspace
+     sh 'rm -rf *'
      //test sonar
      //test docker registry
      sh 'sudo docker login --username=admin --password=Harbor12345 --email=admin@example.com  10.4.65.226'
