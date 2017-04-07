@@ -71,13 +71,13 @@ public class RequestUtils {
                         .field("username", username).field("password", password).asString().getBody();
                 }
                 catch (UnirestException e) {
-                    logger.error("login ARCompute failure");
+                    logger.error("login ARCompute failure>>>"+e.getMessage());
                     throw new IllegalStateException("login ARCompute failure", e);
                 }
                 Map<String, String> result = REQUEST_GSON.fromJson(response, new TypeToken<Map<String, String>>(){}.getType());
                 String error = result.get("error");
                 if (!StringUtils.isEmpty(error)) {
-                    logger.error("ARCompute Username or Password Wrong");
+                    logger.error("ARCompute Username or Password Wrong>>>"+error);
                     throw new IllegalStateException("ARCompute Username or Password Wrong");
                 }
                 else {
