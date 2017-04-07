@@ -60,14 +60,17 @@ public class CommonProducer extends DefaultMQProducer {
      * @return
      */
     public SendResult sendTopicMessageRequest(SendTopicMsgRequest request) {
+        logger.info("start send download video message");
         Message msg = new Message(request.getTopic(),
             request.getTag(),
             request.getMessageBody().getBytes()
         );
+        logger.info("message>>>"+msg.toString());
         try {
             return this.send(msg);
         }
         catch (Exception e) {
+            logger.error("send failure>>>"+e.getMessage());
             throw Throwables.propagate(e);
         }
 

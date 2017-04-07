@@ -45,6 +45,7 @@ public class TopicController {
     @RequestMapping(value = "/downVideo.ar", method = {RequestMethod.POST})
     @ResponseBody
     public Object sendDownVideoMsg(@RequestBody SendTopicMsgRequest sendTopicMsgRequest) {
+        logger.info("start send download video message");
         sendTopicMsgRequest.setTopic(rocketMqConfig.getCalctopic());
         sendTopicMsgRequest.setTag(rocketMqConfig.getDownVideo());
         return downVideoProducer.sendTopicMessageRequest(sendTopicMsgRequest);
@@ -87,5 +88,13 @@ public class TopicController {
     @ResponseBody
     public Object test3(SendTopicMsgRequest sendTopicMsgRequest) {
         return sendTopicMsgRequest;
+    }
+    @RequestMapping(value = "/test4.ar", method = {RequestMethod.POST})
+    @ResponseBody
+    public Object test4(SendTopicMsgRequest sendTopicMsgRequest) {
+        logger.info("start send download video message");
+        sendTopicMsgRequest.setTopic(rocketMqConfig.getCalctopic());
+        sendTopicMsgRequest.setTag(rocketMqConfig.getDownVideo());
+        return downVideoProducer.sendTopicMessageRequest(sendTopicMsgRequest);
     }
 }
