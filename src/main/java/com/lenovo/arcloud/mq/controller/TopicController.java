@@ -44,7 +44,7 @@ public class TopicController {
 
     @RequestMapping(value = "/downVideo.ar", method = {RequestMethod.POST})
     @ResponseBody
-    public Object sendDownVideoMsg(@RequestBody SendTopicMsgRequest sendTopicMsgRequest) {
+    public Object sendDownVideoMsg(SendTopicMsgRequest sendTopicMsgRequest) {
         logger.info("start send download video message1");
         sendTopicMsgRequest.setTopic(rocketMqConfig.getCalctopic());
         sendTopicMsgRequest.setTag(rocketMqConfig.getDownVideo());
@@ -53,7 +53,7 @@ public class TopicController {
 
     @RequestMapping(value = "/processFeature.ar", method = {RequestMethod.POST})
     @ResponseBody
-    public Object sendProcessFeatureMsg(@RequestBody SendTopicMsgRequest sendTopicMsgRequest) {
+    public Object sendProcessFeatureMsg(SendTopicMsgRequest sendTopicMsgRequest) {
         sendTopicMsgRequest.setTopic(rocketMqConfig.getCalctopic());
         sendTopicMsgRequest.setTag(rocketMqConfig.getProcessFeature());
         return processFeatureProducer.sendTopicMessageRequest(sendTopicMsgRequest);
@@ -61,7 +61,7 @@ public class TopicController {
 
     @RequestMapping(value = "/dumpFeature.ar", method = {RequestMethod.POST})
     @ResponseBody
-    public Object sendDumpFeatureMsg(@RequestBody SendTopicMsgRequest sendTopicMsgRequest) {
+    public Object sendDumpFeatureMsg(SendTopicMsgRequest sendTopicMsgRequest) {
         sendTopicMsgRequest.setTopic(rocketMqConfig.getCalctopic());
         sendTopicMsgRequest.setTag(rocketMqConfig.getDumpFeature());
         return dumpFeatureProducer.sendTopicMessageRequest(sendTopicMsgRequest);
@@ -89,6 +89,7 @@ public class TopicController {
     public Object test3(SendTopicMsgRequest sendTopicMsgRequest) {
         return sendTopicMsgRequest;
     }
+
     @RequestMapping(value = "/test4.ar", method = {RequestMethod.POST})
     @ResponseBody
     public Object test4(SendTopicMsgRequest sendTopicMsgRequest) {
