@@ -91,7 +91,8 @@ public class SaveFeatureConsumer extends DefaultMQPushConsumer {
         private void saveCalResult(String resultPath, String execId) {
 
             logger.info("----save image------");
-            File imageDir = new File(resultPath + File.separator + "images");
+            File imageDir = new File(resultPath + File.separator + "image");
+            logger.info("imageDir"+imageDir.getAbsolutePath());
             if (imageDir.exists() && imageDir.isDirectory()) {
                 File[] listFiles = imageDir.listFiles();
                 Arrays.sort(listFiles, new Comparator<File>() {
@@ -106,6 +107,7 @@ public class SaveFeatureConsumer extends DefaultMQPushConsumer {
                         return o2.getName().compareTo(o1.getName());
                     }
                 });
+                logger.info("file num>>>"+listFiles.length);
                 List<ImageObj> imageObjs = Lists.newArrayListWithCapacity(listFiles.length);
                 long i = 0;
                 for (File imageFile : listFiles) {
@@ -121,7 +123,11 @@ public class SaveFeatureConsumer extends DefaultMQPushConsumer {
                         i++;
                     }
                 }
-                hbaseImageDao.insert(imageObjs);
+                logger.info("image objects>>>"+imageObjs.size());
+                if(imageObjs.size() > 0){
+                    hbaseImageDao.insert(imageObjs);
+                }
+
             }
 
             logger.info("----save feature-----");
