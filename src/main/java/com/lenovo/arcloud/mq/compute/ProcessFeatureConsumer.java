@@ -77,10 +77,12 @@ public class ProcessFeatureConsumer extends DefaultMQPushConsumer {
             logger.info("ProcessFeature consume>>>"+messageExt.toString());
             try {
                 String message = new String(messageExt.getBody(), "UTF-8");
+                logger.warn("message>>>"+message);
                 JSONObject json = JSONObject.parseObject(message);
+                logger.info("json>>>"+json.toString());
                 processFeature(json);
             }
-            catch (UnsupportedEncodingException e) {
+            catch (Exception e) {
                 logger.error("process feature failure>>>"+e.getMessage());
             }
 
@@ -89,14 +91,14 @@ public class ProcessFeatureConsumer extends DefaultMQPushConsumer {
         private void processFeature(JSONObject json) {
             String prjName = json.getString(ConstantUtil.ALGORITHM_NAME);
             String flowName = json.getString(ConstantUtil.FLOW_NAME);
-            FlowObj downloadObj = new FlowObj();
-
+            FlowObj processFeatureObj = new FlowObj();
+            logger.info("prjName>>>"+prjName+">>>>flowName>>>"+flowName);
             if(!StringUtils.isEmpty(prjName) && !StringUtils.isEmpty(flowName)){
-                downloadObj.setProjectName(prjName);
-                downloadObj.setFlowName(flowName);
+                processFeatureObj.setProjectName(prjName);
+                processFeatureObj.setFlowName(flowName);
             }else {
-                downloadObj.setProjectName(arComputeConfig.getExtractFeaturePrj());
-                downloadObj.setFlowName(arComputeConfig.getExtractFeatureFlow());
+                processFeatureObj.setProjectName(arComputeConfig.getExtractFeaturePrj());
+                processFeatureObj.setFlowName(arComputeConfig.getExtractFeatureFlow());
             }
 
             Map<String, String> flowProps = Maps.newHashMapWithExpectedSize(json.keySet().size());
@@ -106,7 +108,8 @@ public class ProcessFeatureConsumer extends DefaultMQPushConsumer {
                 }
                 flowProps.put(key,json.getString(key));
             }
-            Object o = exeFlowService.ExecuteFlow(downloadObj, flowProps);
+            logger.info("start process");
+            Object o = exeFlowService.ExecuteFlow(processFeatureObj, flowProps);
             logger.info(o.toString());
 
         }
