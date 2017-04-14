@@ -1,0 +1,1 @@
+create 'Image', {NAME => 'ImgMob', IS_MOB => true, MOB_THRESHOLD => 102400}, {NAME => 'ImgMeta'}
