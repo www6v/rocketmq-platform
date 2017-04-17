@@ -8,4 +8,4 @@ RUN source /etc/profile \
 
 
 ENV JAVA_OPTS=""
-ENTRYPOINT [ "sh", "-c", "source /etc/profile; java $JAVA_OPTS -jar /usr/local/app.jar; tail -f /dev/null" ]
+ENTRYPOINT [ "sh", "-c", "source /etc/profile; java -Xms512m -Xmx512m -jar /usr/local/app.jar; tail -f /dev/null" ]
