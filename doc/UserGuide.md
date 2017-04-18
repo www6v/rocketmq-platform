@@ -25,6 +25,7 @@ pom.xml增加下面dependency
      */
     public void testSendMsg() {
         try {
+           //vpn转发地址：http://114.215.181.127:8780/sendMsg
             String body = Unirest.post("http://10.240.212.164:8103/topic/downVideo.ar").header("accept", "application/json")
                 .field("messageBody", "{'video.url':'http://10.4.65.35:8080/hdpSoftware/20170405094622-20170405094548.zip','record.id':'123','alg.name':'ImageFeature_ORB','flow.name':'Reconstruction'}").asString().getBody();
             System.out.println(body);
