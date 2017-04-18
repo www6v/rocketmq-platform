@@ -89,6 +89,7 @@ public class TopicController {
     @ResponseBody
     public Object test3(@RequestBody SendTopicMsgRequest sendTopicMsgRequest) {
         if (sendTopicMsgRequest != null) {
+            logger.info("test3 request>>>"+sendTopicMsgRequest.toString());
             logger.info("test3 sendTopicMsgRequest json >>>" + JSONObject.toJSONString(sendTopicMsgRequest));
         }
         return sendTopicMsgRequest;
@@ -99,6 +100,7 @@ public class TopicController {
     public Object test4(SendTopicMsgRequest sendTopicMsgRequest) {
         logger.info("start send download video message2");
         if (sendTopicMsgRequest != null) {
+            logger.info("test4 request>>>"+sendTopicMsgRequest.toString());
             logger.info("test4 sendTopicMsgRequest json >>>" + JSONObject.toJSONString(sendTopicMsgRequest));
         }
         sendTopicMsgRequest.setTopic(rocketMqConfig.getCalctopic());

@@ -26,4 +26,8 @@ public class SendTopicMsgRequest {
 
     @Getter @Setter
     private String messageBody;
+
+    public String toString(){
+        return "topic>>>"+topic +">>>key>>>"+key+">>>tag>>>"+tag+">>>messageBody>>>"+messageBody;
+    }
 }
