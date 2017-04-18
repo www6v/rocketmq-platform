@@ -3,12 +3,14 @@
  */
 package com.lenovo.arcloud.mq.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.lenovo.arcloud.mq.compute.CommonProducer;
 import com.lenovo.arcloud.mq.config.RocketMqConfig;
 import com.lenovo.arcloud.mq.model.SendTopicMsgRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -85,7 +87,10 @@ public class TopicController {
     }
     @RequestMapping(value = "/test3.ar", method = {RequestMethod.POST})
     @ResponseBody
-    public Object test3(SendTopicMsgRequest sendTopicMsgRequest) {
+    public Object test3(@RequestBody SendTopicMsgRequest sendTopicMsgRequest) {
+        if (sendTopicMsgRequest != null) {
+            logger.info("test3 sendTopicMsgRequest json >>>" + JSONObject.toJSONString(sendTopicMsgRequest));
+        }
         return sendTopicMsgRequest;
     }
 
@@ -93,6 +98,9 @@ public class TopicController {
     @ResponseBody
     public Object test4(SendTopicMsgRequest sendTopicMsgRequest) {
         logger.info("start send download video message2");
+        if (sendTopicMsgRequest != null) {
+            logger.info("test4 sendTopicMsgRequest json >>>" + JSONObject.toJSONString(sendTopicMsgRequest));
+        }
         sendTopicMsgRequest.setTopic(rocketMqConfig.getCalctopic());
         sendTopicMsgRequest.setTag(rocketMqConfig.getDownVideo());
         return downVideoProducer.sendTopicMessageRequest(sendTopicMsgRequest);
