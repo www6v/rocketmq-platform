@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.lenovo.arcloud.mq.compute.CommonProducer;
 import com.lenovo.arcloud.mq.config.RocketMqConfig;
 import com.lenovo.arcloud.mq.model.SendTopicMsgRequest;
+import org.apache.rocketmq.client.producer.SendResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -105,6 +106,8 @@ public class TopicController {
         }
         sendTopicMsgRequest.setTopic(rocketMqConfig.getCalctopic());
         sendTopicMsgRequest.setTag(rocketMqConfig.getDownVideo());
-        return downVideoProducer.sendTopicMessageRequest(sendTopicMsgRequest);
+        SendResult result = downVideoProducer.sendTopicMessageRequest(sendTopicMsgRequest);
+        logger.info("test4 result>>>"+result.toString());
+        return result;
     }
 }
