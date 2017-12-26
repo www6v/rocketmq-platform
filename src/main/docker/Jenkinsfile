@@ -49,7 +49,7 @@ node {
       stage 'Deployment-Beta'
       sh 'sed -i "s/VERSION/"'+short_commit+'"/g" src/test/integration/docker-compose.yml'
       sh '/home/jenkins/tools/rancher-compose-v0.12.3/rancher-compose -f src/test/integration/docker-compose.yml -r src/test/integration/rancher-compose.yml --url http://10.240.212.164:8101 --access-key 67EC9C0C312426ECEBFC --secret-key X8ig8gSX4ue1UZJM58iV4g3PscFH8waxNF7zA6FX --verbose up -d --force-upgrade --pull --confirm-upgrade rocketmq-compute'
-
+      sh 'sudo ssh root@10.240.212.164 "bash /home/admin/deploy_docker.sh 10.4.65.226/deeplearning/rocketmq-compute:"'+short_commit+'" rocketmq-compute hdpOverlay"'
       stage 'Deployment-Production'
       echo 'No Production Enviroment'
 }

@@ -42,6 +42,9 @@ public class TopicController {
     private CommonProducer dumpFeatureProducer;
 
     @Resource
+    private CommonProducer evalAlgProducer;
+
+    @Resource
     private RocketMqConfig rocketMqConfig;
 
     @RequestMapping(value = "/downVideo.ar", method = {RequestMethod.POST})
@@ -67,6 +70,14 @@ public class TopicController {
         sendTopicMsgRequest.setTopic(rocketMqConfig.getCalctopic());
         sendTopicMsgRequest.setTag(rocketMqConfig.getDumpFeature());
         return dumpFeatureProducer.sendTopicMessageRequest(sendTopicMsgRequest);
+    }
+
+    @RequestMapping(value = "/evalAlg.ar", method = {RequestMethod.POST})
+    @ResponseBody
+    public Object sendEvalAlg(SendTopicMsgRequest request){
+        request.setTopic(rocketMqConfig.getCalctopic());
+        request.setTag(rocketMqConfig.getEvalAlg());
+        return evalAlgProducer.sendTopicMessageRequest(request);
     }
 
     @RequestMapping(value = "/test.ar", method = {RequestMethod.GET})

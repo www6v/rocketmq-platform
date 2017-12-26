@@ -37,6 +37,9 @@ public class RocketMqConfig {
     private String processFeatureConsumerGroup;
 
     @Setter @Getter
+    private String evalAlgConsumerGroup;
+
+    @Setter @Getter
     private String calctopic;
 
     @Setter @Getter
@@ -47,4 +50,7 @@ public class RocketMqConfig {
 
     @Setter @Getter
     private String dumpFeature;
+
+    @Getter @Setter
+    private String evalAlg;
 }

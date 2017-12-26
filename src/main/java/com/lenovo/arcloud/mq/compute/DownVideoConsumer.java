@@ -61,7 +61,6 @@ public class DownVideoConsumer extends DefaultMQPushConsumer {
         catch (MQClientException e) {
             logger.error("init DownVideo Consumer failure>>>"+e.getMessage());
         }
-
     }
 
     @PreDestroy
@@ -103,9 +102,7 @@ public class DownVideoConsumer extends DefaultMQPushConsumer {
                 flowProps.put(key,json.getString(key));
             }
             Object o = exeFlowService.ExecuteFlow(downloadObj, flowProps);
-
             logger.info(o.toString());
-
         }
     }
 

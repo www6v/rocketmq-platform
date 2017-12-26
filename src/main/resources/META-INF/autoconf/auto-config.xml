@@ -17,6 +17,8 @@
         <property name="rocketmq.processFeature"  defaultValue="PROCESS_VIDEO"/>
         <property name="rocketmq.dumpFeature"  defaultValue="PROCESS_VIDEO"/>
         <property name="rocketmq.defaultConsumerGroup"  defaultValue="PROCESS_VIDEO"/>
+        <property name="rocketmq.evalAlgConsumerGroup" defaultValue="PROCESS_VIDEO"/>
+        <property name="rocketmq.evalAlg" defaultValue="PROCESS_VIDEO"/>
         <property name="hbase.clientHost"  defaultValue="PROCESS_VIDEO"/>
         <property name="hbase.clientPort"  defaultValue="PROCESS_VIDEO"/>
         <property name="hbase.tcpnodelay"  defaultValue="PROCESS_VIDEO"/>
