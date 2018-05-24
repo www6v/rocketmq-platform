@@ -108,9 +108,12 @@ public class ProcessFeatureConsumer extends DefaultMQPushConsumer {
                 flowProps.put(key,json.getString(key));
             }
             logger.info("start process");
+
+            logger.info("processFeatureObj: " + processFeatureObj);
+            logger.info("flowProps: " + flowProps);
+
             Object o = exeFlowService.ExecuteFlow(processFeatureObj, flowProps);
             logger.info(o.toString());
-
         }
     }
 

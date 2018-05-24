@@ -18,7 +18,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.util.Bytes;
-import org.springframework.stereotype.Service;
+
 
 import javax.annotation.Resource;
 import java.net.URL;
@@ -31,7 +31,7 @@ import java.util.List;
  * @since 2017/3/29
  *
  */
-@Service
+//@Service
 public class HbaseImageDao implements ImageDao {
 
     @Resource

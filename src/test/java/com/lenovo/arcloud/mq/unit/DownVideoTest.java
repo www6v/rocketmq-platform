@@ -19,13 +19,56 @@ import org.junit.Test;
  */
 public class DownVideoTest {
 
-    @Test
+
     /**
      * video.url 扫描的压缩包url地址
      * record.id 可选 对应扫描结果库记录id，为计算完结果回传提供支持
      * alg.name 对应计算模块的库名
      * flow.name 对应计算模块的入口方法
      */
+    @Test /// from UserGuide.md
+    public void testSendMsg() {
+        try {
+            //vpn转发地址：http://114.215.181.127:8780/sendMsg
+            //// 10.240.212.164 没有这个机器 /// 'developerId' added
+            ///// http://10.4.65.35:8080/hdpSoftware/20170405094622-20170405094548.zip
+            ///// http://120.55.162.42:8080/hdpSoftware/20170405094622-20170405094548.zip
+
+//            String body = Unirest.post("http://120.55.162.42:8103/topic/downVideo.ar").header("accept", "application/json")
+//                    .field("messageBody", "{'video.url':'http://120.55.162.42:8080/hdpSoftware/20180420181143.zip','record.id':'123','alg.name':'ImageFeature_ORB','flow.name':'Reconstruction', 'developerId':'321'}").asString().getBody();
+//            System.out.println(body);
+
+            /// 20180420181143.zip  杨永恒
+            /// trainingData.zip  建冲
+
+            /// 阿里云
+//            for(int i=0; i<1; i++) {
+//                String body = Unirest.post("http://120.55.162.42:8103/topic/downVideo.ar").header("accept", "application/json")
+//                        .field("messageBody", "{'video.url':'http://repo.shai.cloud:18080/api/app/fs/contents/20180420181143.zip','record.id':'764','alg.name':'ImageFeature_ORB','flow.name':'Reconstruction', 'developerId':'149'}").asString().getBody();
+//                System.out.println(body);
+//            }
+
+            for(int i=0; i<1; i++) {
+                String body = Unirest.post("http://10.4.65.69:8103/topic/downVideo.ar").header("accept", "application/json")
+                        .field("messageBody", "{'video.url':'http://repo.shai.cloud:18080/api/app/fs/contents/20180420181143.zip','record.id':'764','alg.name':'ImageFeature_ORB','flow.name':'Reconstruction', 'developerId':'149'}").asString().getBody();
+                System.out.println(body);
+            }
+            /// 'video.url':'http://120.55.162.42:8080/hdpSoftware/20180420181143.zip'
+            ///http://repo.shai.cloud:8180/api/app/fs/contents/20180516164032-cupww.zip
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * video.url 扫描的压缩包url地址
+     * record.id 可选 对应扫描结果库记录id，为计算完结果回传提供支持
+     * alg.name 对应计算模块的库名
+     * flow.name 对应计算模块的入口方法
+     */
+//    @Test
     public void testSendAliyunMsg() {
         try {
             String body = Unirest.post("http://120.55.162.42:8103/topic/downVideo.ar").header("accept", "application/json")
@@ -38,7 +81,7 @@ public class DownVideoTest {
 
     }
 
-    @Test
+//    @Test
     public void testSendDevMsg() {
         try {
             String body = Unirest.post("http://10.240.212.164:8103/topic/downVideo.ar").header("accept", "application/json")
@@ -52,11 +95,7 @@ public class DownVideoTest {
     }
 
 
-
-
-
-
-    @Test
+//    @Test
     public void testSendVpnMsg() {
         try {
             HttpResponse<String> response = Unirest.post("http://114.215.181.127:8780/sendMsg").header("accept","application/json")
@@ -69,7 +108,7 @@ public class DownVideoTest {
         }
 
     }
-    @Test
+//    @Test
     public void testSendVpnMsgInter() {
         try {
 
@@ -85,14 +124,14 @@ public class DownVideoTest {
 
     }
 
-    @Test
+//    @Test
     public void testJson(){
         String a = "{'video.name':'targetDB.zip','record.id':123,'alg.name':'ImageFeature_ORB','flow.name':'sparse'}";
         JSONObject json = JSONObject.parseObject(a);
         System.out.println(json.toJSONString());
     }
 
-    @Test
+//    @Test
     public void testSql(){
         int max =119;
         for(int i=0;i<=max;i++){

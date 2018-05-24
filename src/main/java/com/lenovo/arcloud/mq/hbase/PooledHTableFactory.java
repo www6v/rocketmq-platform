@@ -14,7 +14,7 @@ import org.apache.hadoop.hbase.client.Table;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
-import org.springframework.stereotype.Service;
+
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit;
  * @since 2017/3/29
  *
  */
-@Service
+//@Service
 public class PooledHTableFactory implements TableFactory, DisposableBean {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 

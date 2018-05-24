@@ -10,7 +10,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.stereotype.Service;
+
 
 import javax.annotation.Resource;
 
@@ -21,7 +21,7 @@ import javax.annotation.Resource;
  * @since 2017/3/29
  *
  */
-@Service
+//@Service
 public class HbaseConfigurationFactoryBean implements InitializingBean, FactoryBean<Configuration> {
     private Configuration configuration;
 

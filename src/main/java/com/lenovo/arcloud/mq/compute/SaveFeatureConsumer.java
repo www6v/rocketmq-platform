@@ -44,7 +44,7 @@ public class SaveFeatureConsumer extends DefaultMQPushConsumer {
     @Resource
     private RocketMqConfig rocketMqConfig;
 
-    @Resource
+//    @Resource
     private ImageDao hbaseImageDao;
 
     @PostConstruct
@@ -125,7 +125,7 @@ public class SaveFeatureConsumer extends DefaultMQPushConsumer {
                 }
                 logger.info("image objects>>>"+imageObjs.size());
                 if(imageObjs.size() > 0){
-                    hbaseImageDao.insert(imageObjs);
+///                    hbaseImageDao.insert(imageObjs);
                 }
 
             }

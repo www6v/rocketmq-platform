@@ -53,6 +53,12 @@ public class RequestUtils {
                     getter.setActive(false);
                 }
             }, Integer.valueOf(period), Integer.valueOf(period));
+
+
+            logger.info("init -> host: " + host);
+            logger.info("init -> username: " + username);
+            logger.info("init -> password: " + password);
+            logger.info("init -> period: " + period);
         }
         catch (IOException e) {
             throw new RuntimeException(e);
@@ -99,6 +105,8 @@ public class RequestUtils {
     }
 
     public static HttpRequest get(String uri) {
+        logger.info("azkaban exec host:" + host + URL_SEPERATOR + uri);
+        //logger.info("azkaban exec sessionId:" + getter.getSessionId());
         return Unirest.get(host + URL_SEPERATOR + uri).queryString(SESSION_ID, getter.getSessionId());
     }
 

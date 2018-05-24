@@ -10,6 +10,9 @@
         <property name="arCompute.downloadVideoFlow"  defaultValue="PROCESS_VIDEO"/>
         <property name="arCompute.extractFeaturePrj"  defaultValue="PROCESS_VIDEO"/>
         <property name="arCompute.extractFeatureFlow"  defaultValue="PROCESS_VIDEO"/>
+
+
+
         <property name="rocketmq.namesrvAddr"  defaultValue="PROCESS_VIDEO"/>
         <property name="rocketmq.defaultProducerGroup"  defaultValue="PROCESS_VIDEO"/>
         <property name="rocketmq.calctopic"  defaultValue="PROCESS_VIDEO"/>
@@ -19,6 +22,13 @@
         <property name="rocketmq.defaultConsumerGroup"  defaultValue="PROCESS_VIDEO"/>
         <property name="rocketmq.evalAlgConsumerGroup" defaultValue="PROCESS_VIDEO"/>
         <property name="rocketmq.evalAlg" defaultValue="PROCESS_VIDEO"/>
+
+        <!-- -->
+        <property name="rocketmq.downVideoConsumerGroup" defaultValue="PROCESS_VIDEO"/>
+        <property name="rocketmq.saveFeatureConsumerGroup" defaultValue="PROCESS_VIDEO"/>
+        <property name="rocketmq.processFeatureConsumerGroup" defaultValue="PROCESS_VIDEO"/>
+
+
         <property name="hbase.clientHost"  defaultValue="PROCESS_VIDEO"/>
         <property name="hbase.clientPort"  defaultValue="PROCESS_VIDEO"/>
         <property name="hbase.tcpnodelay"  defaultValue="PROCESS_VIDEO"/>
@@ -41,6 +51,5 @@
     <script>
         <generate template="application.properties" charset="GBK"/>
     </script>
-
 
 </config>

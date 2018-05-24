@@ -53,6 +53,11 @@ public class TopicController {
         logger.info("start send download video message1");
         sendTopicMsgRequest.setTopic(rocketMqConfig.getCalctopic());
         sendTopicMsgRequest.setTag(rocketMqConfig.getDownVideo());
+
+        ////
+        logger.info("rocketMqConfig.getNamesrvAddr():" + rocketMqConfig.getNamesrvAddr());
+        logger.info("rocketMqConfig.getCalctopic():" + rocketMqConfig.getCalctopic());
+        ////
         return downVideoProducer.sendTopicMessageRequest(sendTopicMsgRequest);
     }
 

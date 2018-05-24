@@ -102,7 +102,7 @@ public class DownVideoConsumer extends DefaultMQPushConsumer {
                 flowProps.put(key,json.getString(key));
             }
             Object o = exeFlowService.ExecuteFlow(downloadObj, flowProps);
-            logger.info(o.toString());
+            logger.info("exec response: "  +  o.toString());
         }
     }
 

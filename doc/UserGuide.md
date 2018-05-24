@@ -18,23 +18,23 @@ pom.xml增加下面dependency
 示例代码
 
 	/**
-     * video.url 扫描的压缩包url地址
-     * record.id 可选 对应扫描结果库记录id，为计算完结果回传提供支持
-     * alg.name 对应计算模块的库名
-     * flow.name 对应计算模块的入口方法
-     */
-    public void testSendMsg() {
-        try {
-           //vpn转发地址：http://114.215.181.127:8780/sendMsg
-            String body = Unirest.post("http://10.240.212.164:8103/topic/downVideo.ar").header("accept", "application/json")
-                .field("messageBody", "{'video.url':'http://10.4.65.35:8080/hdpSoftware/20170405094622-20170405094548.zip','record.id':'123','alg.name':'ImageFeature_ORB','flow.name':'Reconstruction'}").asString().getBody();
-            System.out.println(body);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+          * video.url 扫描的压缩包url地址
+          * record.id 可选 对应扫描结果库记录id，为计算完结果回传提供支持
+          * alg.name 对应计算模块的库名
+          * flow.name 对应计算模块的入口方法
+          */
+         public void testSendMsg() {
+             try {
+                //vpn转发地址：http://114.215.181.127:8780/sendMsg
+                 String body = Unirest.post("http://10.240.212.164:8103/topic/downVideo.ar").header("accept", "application/json")
+                     .field("messageBody", "{'video.url':'http://10.4.65.35:8080/hdpSoftware/20170405094622-20170405094548.zip','record.id':'123','alg.name':'ImageFeature_ORB','flow.name':'Reconstruction'}").asString().getBody();
+                 System.out.println(body);
+             }
+             catch (Exception e) {
+                 e.printStackTrace();
+             }
 
-    }
+         }
 
 ### shell API ###
     //参数含义如上所述
