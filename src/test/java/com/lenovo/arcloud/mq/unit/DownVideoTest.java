@@ -41,18 +41,35 @@ public class DownVideoTest {
             /// 20180420181143.zip  杨永恒
             /// trainingData.zip  建冲
 
-            /// 阿里云
+            /// 阿里云 42
+            for(int i=0; i<1; i++) {
+                String body = Unirest.post("http://120.55.162.42:8103/topic/downVideo.ar").header("accept", "application/json")
+                        .field("messageBody", "{'video.url':'http://repo.shai.cloud:18080/api/app/fs/contents/20180420181143.zip','record.id':'11111','alg.name':'ImageFeature_ORB','flow.name':'Reconstruction', 'developerId':'149'}").asString().getBody();
+                System.out.println(body);
+                Thread.sleep(1000*10);
+            }
+
+            /// test env
 //            for(int i=0; i<1; i++) {
-//                String body = Unirest.post("http://120.55.162.42:8103/topic/downVideo.ar").header("accept", "application/json")
+//                String body = Unirest.post("http://10.4.65.69:8103/topic/downVideo.ar").header("accept", "application/json")
 //                        .field("messageBody", "{'video.url':'http://repo.shai.cloud:18080/api/app/fs/contents/20180420181143.zip','record.id':'764','alg.name':'ImageFeature_ORB','flow.name':'Reconstruction', 'developerId':'149'}").asString().getBody();
 //                System.out.println(body);
 //            }
 
-            for(int i=0; i<1; i++) {
-                String body = Unirest.post("http://10.4.65.69:8103/topic/downVideo.ar").header("accept", "application/json")
-                        .field("messageBody", "{'video.url':'http://repo.shai.cloud:18080/api/app/fs/contents/20180420181143.zip','record.id':'764','alg.name':'ImageFeature_ORB','flow.name':'Reconstruction', 'developerId':'149'}").asString().getBody();
-                System.out.println(body);
-            }
+            ///  龙超
+//            for(int i=0; i<1; i++) {
+//                String body = Unirest.post("http://10.4.65.226:8103/topic/downVideo.ar").header("accept", "application/json")
+//                        .field("messageBody", "{'video.url':'http://repo.shai.cloud:18080/api/app/fs/contents/20180420181143.zip','record.id':'764','alg.name':'ImageFeature_ORB','flow.name':'Reconstruction', 'developerId':'149'}").asString().getBody();
+//                System.out.println(body);
+//            }
+
+            /// deeplearning 151
+//            for(int i=0; i<1; i++) {
+//                String body = Unirest.post("http://10.4.65.151:8103/topic/downVideo.ar").header("accept", "application/json")
+//                        .field("messageBody", "{'video.url':'http://repo.shai.cloud:18080/api/app/fs/contents/20180420181143.zip','record.id':'11111','alg.name':'ImageFeature_ORB','flow.name':'Reconstruction', 'developerId':'149'}").asString().getBody();
+//                System.out.println(body);
+//            }
+
             /// 'video.url':'http://120.55.162.42:8080/hdpSoftware/20180420181143.zip'
             ///http://repo.shai.cloud:8180/api/app/fs/contents/20180516164032-cupww.zip
         }

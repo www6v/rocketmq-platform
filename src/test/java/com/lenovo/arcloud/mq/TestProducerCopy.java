@@ -21,13 +21,14 @@ public class TestProducerCopy {
     public static void main(String[] args) throws MQClientException, InterruptedException {
 
         DefaultMQProducer producer = new DefaultMQProducer("ProducerGroupName");
-//        producer.setNamesrvAddr("120.55.162.42:9876");
-        producer.setNamesrvAddr("10.4.65.69:9876");
-//        producer.setVipChannelEnabled(false); ///
+        producer.setNamesrvAddr("120.55.162.42:9876");
+//        producer.setNamesrvAddr("10.4.65.226:9876");
+//        producer.setNamesrvAddr("10.4.65.151:9876");
+        producer.setVipChannelEnabled(false); ///
 
         producer.start();
 
-        for (int i = 0; i < 10000000; i++)
+        for (int i = 0; i < 1000; i++)
             try {
                 {
                     Message msg = new Message("calctopicWW",  ///   BenchmarkTest
@@ -36,6 +37,7 @@ public class TestProducerCopy {
                             "Hello world".getBytes(RemotingHelper.DEFAULT_CHARSET));
                     SendResult sendResult = producer.send(msg);
                     System.out.printf("%s%n", sendResult);
+                    Thread.sleep(1000*5);
                 }
 
             } catch (Exception e) {
