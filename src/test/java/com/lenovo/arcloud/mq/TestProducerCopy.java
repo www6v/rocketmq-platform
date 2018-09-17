@@ -12,7 +12,7 @@ import org.apache.rocketmq.remoting.common.RemotingHelper;
 /***
  * Description
  *
- * @author zhulc1@lenovo.com
+ *
  * @since 2017/3/23
  *
  */
@@ -21,10 +21,13 @@ public class TestProducerCopy {
     public static void main(String[] args) throws MQClientException, InterruptedException {
 
         DefaultMQProducer producer = new DefaultMQProducer("ProducerGroupName");
-        producer.setNamesrvAddr("120.55.162.42:9876");
+//        producer.setNamesrvAddr("120.55.162.42:9876");
+//        producer.setNamesrvAddr("10.4.64.74:9876");
 //        producer.setNamesrvAddr("10.4.65.226:9876");
 //        producer.setNamesrvAddr("10.4.65.151:9876");
+        producer.setNamesrvAddr("gpu.shai.cloud:9876");
         producer.setVipChannelEnabled(false); ///
+
 
         producer.start();
 

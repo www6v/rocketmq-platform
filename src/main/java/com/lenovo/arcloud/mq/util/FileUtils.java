@@ -16,7 +16,7 @@ import java.nio.channels.FileChannel;
 /***
  * Description
  *
- * @author zhulc1@lenovo.com
+ *
  * @since 2017/3/30
  *
  */

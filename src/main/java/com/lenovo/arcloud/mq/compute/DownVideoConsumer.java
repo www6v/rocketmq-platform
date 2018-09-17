@@ -31,7 +31,6 @@ import java.util.Map;
 /***
  * Download Video Consumer
  *
- * @author zhulc1@lenovo.com
  * @since 2017/3/23
  *
  */

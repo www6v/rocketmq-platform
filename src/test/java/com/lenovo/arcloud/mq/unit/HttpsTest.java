@@ -19,7 +19,7 @@ import javax.net.ssl.X509TrustManager;
 /***
  * Description
  *
- * @author zhulc1@lenovo.com
+ *
  * @since 2017/4/7
  *
  */

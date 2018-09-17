@@ -21,7 +21,6 @@ import javax.annotation.Resource;
 /***
  * Description
  *
- * @author zhulc1@lenovo.com
  * @since 2017/3/24
  *
  */

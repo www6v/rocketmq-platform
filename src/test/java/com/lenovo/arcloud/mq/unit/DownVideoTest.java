@@ -13,7 +13,7 @@ import org.junit.Test;
 /***
  * Description
  *
- * @author zhulc1@lenovo.com
+ *
  * @since 2017/4/7
  *
  */

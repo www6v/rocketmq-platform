@@ -8,7 +8,7 @@ import static com.lenovo.arcloud.mq.util.BytesUtils.LONG_BYTE_LENGTH;
 /***
  * Description
  *
- * @author zhulc1@lenovo.com
+ *
  * @since 2017/3/29
  *
  */
