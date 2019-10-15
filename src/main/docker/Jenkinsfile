@@ -8,7 +8,7 @@ node {
      //test rancher
 
      stage 'checkout code'
-     git([url: 'git@10.4.65.64:deeplearning/rocketmq-compute.git', branch: 'master'])
+     git([url: 'git@10.4.65.64:deeplearning/rocketmq-xxx.git', branch: 'master'])
      echo 'checkout success'
 
       stage 'Junits & Integrate &Coverage'
